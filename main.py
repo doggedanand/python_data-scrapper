@@ -1,6 +1,6 @@
 from flask import Flask
 import pdf_worker;
-print("Starting Flask application...")
+import pike_pdf_worker;
 app = Flask(__name__)
 
 @app.route("/")

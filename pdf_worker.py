@@ -103,7 +103,7 @@ pdf_path = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
 # print(extracted_text)
 
 # Extract images
-extract_images_from_pdf(pdf_path)
+# extract_images_from_pdf(pdf_path)
 
 # Extract images with coordinates
 # extract_images_with_coordinates(pdf_path)
