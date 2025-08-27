@@ -53,6 +53,6 @@ def extract_images_from_pdf(pdf_path, output_dir="images_pikepdf"):
 
 
 # Call the function
-extract_images_from_pdf("abhishek_bsb-udn.pdf")
+# extract_images_from_pdf("abhishek_bsb-udn.pdf")
 
 
