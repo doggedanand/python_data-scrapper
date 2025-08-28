@@ -2,18 +2,18 @@ import pymupdf
 import os
 import shutil
 import pdfplumber
-# def extract_text_from_pdf(pdf_file):
-#     text = ""
-#     with pymupdf.open(pdf_file) as pdf:
-#         for page_num in range(len(pdf)):
-#             page = pdf[page_num]
-#             text += f"\n--- Page {page_num+1} ---\n"
-#             blocks = page.get_text("blocks")
+def extract_text_from_pdf(pdf_file):
+    text = ""
+    with pymupdf.open(pdf_file) as pdf:
+        for page_num in range(len(pdf)):
+            page = pdf[page_num]
+            text += f"\n--- Page {page_num+1} ---\n"
+            blocks = page.get_text("blocks")
             
-#             for b in blocks:
-#                 text += b[4]
-#                 text += "\n"
-#     return text
+            for b in blocks:
+                text += b[4]
+                text += "\n"
+    return text
 
 
 def extract_images_from_pdf(pdf_file, output_folder="images"):
@@ -99,8 +99,8 @@ def extract_images_with_coordinates(pdf_file, output_folder="images_with_coords"
 pdf_path = "SSC-CGL-Tier-1-Question-Paper-10-September-2024-Shift-1.pdf"
 
 # # Extract text
-# # extracted_text = extract_text_from_pdf(pdf_path)
-# # print(extracted_text)
+# extracted_text = extract_text_from_pdf(pdf_path)
+# print(extracted_text)
 
 # # Extract images
 # extract_images_from_pdf(pdf_path)
@@ -180,7 +180,7 @@ def extract_images_with_smask(pdf_file, output_folder="pdf_images"):
                         img_bytes = io.BytesIO()
                         base_img.save(img_bytes, format="PNG")
                         img_bytes = img_bytes.getvalue()
-                        print(f"🎭 Applied smask to image {img_index+1}")
+                        print(f"Applied smask to image {img_index+1}")
                 except Exception as e:
                     print(f"Error applying smask: {e}")
 
@@ -195,7 +195,7 @@ def extract_images_with_smask(pdf_file, output_folder="pdf_images"):
 
 
 # 🔹 Example usage
-pdf_path = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
+pdf_path = "18-Jan-Paper-I-EN.pdf"
 # extract_images_with_smask(pdf_path, output_folder="pdf_images")
 
 
