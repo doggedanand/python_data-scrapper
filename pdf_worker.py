@@ -195,33 +195,11 @@ def extract_images_with_smask(pdf_file, output_folder="pdf_images"):
 
 
 # 🔹 Example usage
-pdf_path = "18-Jan-Paper-I-EN.pdf"
+pdf_path = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
 # extract_images_with_smask(pdf_path, output_folder="pdf_images")
 
 
 
 
 
-import camelot, os
-
-def extract_tables(pdf_file, output_folder="pdf_tables"):
-    # Try with stream first (less false positives)
-    tables = camelot.read_pdf(pdf_file, pages="all", flavor="lattice")
-
-    print(f"🔍 Total raw tables detected: {len(tables)}")
-
-    # Filter out noise (keep only real tables)
-    valid_tables = [t for t in tables if t.shape[1] > 1 and t.shape[0] > 2]
-
-    print(f"✅ After filtering, tables kept: {len(valid_tables)}")
-
-    if not os.path.exists(output_folder):
-        os.makedirs(output_folder, exist_ok=True)
-
-    for i, table in enumerate(valid_tables):
-        csv_path = f"{output_folder}/table_{i+1}.csv"
-        table.to_csv(csv_path)
-        print(f"📄 Saved table {i+1} → {csv_path}")
-
  
-# extract_tables(pdf_path, output_folder="pdf_tables")
