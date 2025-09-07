@@ -11,7 +11,7 @@ import statistics
 # Type hints
 from typing import Any, Dict, List, Tuple, Optional
 # Input PDF file path
-PDF_PATH = "SSC-CGL-Question-Paper-10-September-2024-Shift-3_removed.pdf"
+PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
 # Max width/height for small icons
@@ -78,6 +78,7 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
     items: List[Dict[str, Any]] = []
     # Extract page content as dict
     d = page.get_text("dict")
+    all_texts_for_testing = []
     # Loop through all blocks
     for block in d.get("blocks", []):
         # Skip non-text blocks
@@ -105,7 +106,12 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 color = parse_color(color_raw) if color_raw is not None else (0, 0, 0)
                 # Add text item
                 items.append({"type": "text", "text": text_stripped, "bbox": bbox, "color": color})
+                all_texts_for_testing.append({"text": text_stripped, "bbox": bbox})
+                # Texts को JSON में save करना
+                with open("test_texts.json", "w", encoding="utf-8") as f:
+                    json.dump(all_texts_for_testing, f, ensure_ascii=False, indent=4)
     # Loop through all images on page
+    all_images_for_testing = []
     for img in page.get_images(full=True):
         # Image reference id
         xref = img[0]
@@ -116,8 +122,14 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         # Skip very small icons
         if w < ICON_MAX_WH and h < ICON_MAX_WH:
             continue
+        page_w = page.rect.width
+        page_h = page.rect.height
+        # Skip very large images (possible watermark)
+        if w > page_w * 0.7 and h > page_h * 0.7:
+            continue
         # Extract image bytes
         img_bytes = info["image"]
+        # print('--------img_bytes---------', len(img_bytes))
         # Get image rectangle
         rects = page.get_image_rects(xref)
         # Skip if no rect found
@@ -125,6 +137,10 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
             continue
         # Take first rect
         r = rects[0]
+        if not (w <= ICON_MAX_WH and h <= ICON_MAX_WH):
+            all_images_for_testing.append({ 'data' :to_base64(img_bytes), "bbox": (r.x0, r.y0, r.x1, r.y1)})
+        # print('----------------r------------',r.x0)
+        # break
         # Add image item
         items.append(
             {
@@ -138,8 +154,15 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         )
     # Sort items by vertical (y) then horizontal (x)
     items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
+    # print("-------items-----------", items)
+    print([it["data"] for it in items if it["type"] == "image"])
+
     # Return all collected items
-    return items
+    # print('all_images_for_testingall_images_for_testing',all_images_for_testing)
+    # JSON file create और save करना
+    with open("test_images.json", "w", encoding="utf-8") as f:
+        json.dump(all_images_for_testing, f, ensure_ascii=False, indent=4)
+        return items
 # Remove option markers (A., 1., etc.) from text
 def clean_option_text(text: str) -> str:
     return OPT_MARK.sub("", text).strip()
@@ -167,32 +190,38 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
         page_height = doc[0].bound()[3]
         # Loop through all pages
         for pagenum, page in enumerate(doc):
-            # Collect items from page
-            page_items = collect_page_items(page)
-            # Calculate offset based on page number
-            offset = pagenum * page_height
-            # Adjust bbox with offset
-            for it in page_items:
-                b = it["bbox"]
-                it["bbox"] = (b[0], b[1] + offset, b[2], b[3] + offset)
-            # Add items to global list
-            all_items.extend(page_items)
+            if pagenum == 4:
+                # Collect items from page
+                page_items = collect_page_items(page)
+                print('--------page_items---------', page_items)
+                # Calculate offset based on page number
+                offset = pagenum * page_height
+                # Adjust bbox with offset
+                for it in page_items:
+                    b = it["bbox"]
+                    it["bbox"] = (b[0], b[1] + offset, b[2], b[3] + offset)
+                # Add items to global list
+                all_items.extend(page_items)
     # Sort all items by vertical then horizontal position
     all_items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
     # Collect text heights for median
     heights = [(it["bbox"][3] - it["bbox"][1]) for it in all_items if it["type"] == "text"]
     # Median height fallback to 12.0
     median_height = statistics.median(heights) if heights else 12.0
+    # print("Median text height:", median_height)
     # Threshold to detect paragraph breaks
     paragraph_threshold = median_height * 1.6
+    # print("Paragraph threshold:", paragraph_threshold)
     # Start index
     i = 0
     # Total number of items
     N = len(all_items)
+    # print('Total items collected:', N)
     # Loop through items
     while i < N:
         # Current item
         it = all_items[i]
+        # print('--------it---------', it)
         # Skip if not text
         if it["type"] != "text":
             i += 1
@@ -205,8 +234,10 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
             continue
         # Match full section pattern
         mfull = SECTION_FULL.match(text)
+        # print('--------mfull---------', mfull)
         # If section found
         if mfull:
+            print('--------mfull----------', mfull)
             # Extract section title
             title = mfull.group(1).strip()
             # Reuse last section if same title
@@ -220,8 +251,10 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
             continue
         # Match section prefix only
         mpref = SECTION_PREFIX.match(text)
+        # print('--------mpref---------', mpref)
         # If prefix found
         if mpref:
+            # print('--------mpref----------', mpref)
             # Start from next item
             j = i + 1
             # Collect possible title parts
@@ -256,6 +289,7 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 continue
         # Match question start
         mq = Q_START.match(text)
+        # print('--------mq---------', mq)
         if mq:
             # If no section, create default
             if current_section is None:
@@ -263,13 +297,18 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 result["sections"].append(current_section)
             # Initialize question object
             question: Dict[str, Any] = {"question": [], "options": [], "correctOption": None}
+            # print('--------question---------', question)
+            # break
             current_section["questions"].append(question)
             # Start scanning from next item
             start = i + 1
+            # print('--------start---------', start)
             j = start
             # Find question end
             while j < N:
                 nxt = all_items[j]
+                # print('--------nxt---------', nxt)
+                # break
                 if nxt["type"] == "text" and (
                     SECTION_FULL.match(nxt["text"]) or SECTION_PREFIX.match(nxt["text"]) or Q_START.match(nxt["text"])
                 ):
@@ -510,6 +549,8 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     for section in result["sections"]:
         for q in section["questions"]:
             if q["options"]:
+                # print('--------q---------', q['options'])
+                # break
                 for idx, opt in enumerate(q["options"], start=1):
                     first_txt = next((p for p in opt if p.get("type") == "text" and "_color" in p), None)
                     if first_txt and not is_red(first_txt["_color"]):
@@ -525,6 +566,7 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 if isinstance(piece, dict):
                     piece.pop("_bbox", None)
                     piece.pop("is_small", None)
+    # print('--------Finished processing all items---------', result)
     # Return structured result
     return result
 # Standard Python entry point check
