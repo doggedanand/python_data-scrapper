@@ -108,8 +108,8 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 items.append({"type": "text", "text": text_stripped, "bbox": bbox, "color": color})
                 all_texts_for_testing.append({"text": text_stripped, "bbox": bbox})
                 # Texts को JSON में save करना
-                with open("test_texts.json", "w", encoding="utf-8") as f:
-                    json.dump(all_texts_for_testing, f, ensure_ascii=False, indent=4)
+                # with open("test_texts.json", "w", encoding="utf-8") as f:
+                #     json.dump(all_texts_for_testing, f, ensure_ascii=False, indent=4)
     # Loop through all images on page
     all_images_for_testing = []
     for img in page.get_images(full=True):
@@ -153,16 +153,24 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
             }
         )
     # Sort items by vertical (y) then horizontal (x)
-    items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
+    # items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
     # print("-------items-----------", items)
-    print([it["data"] for it in items if it["type"] == "image"])
-
+    # print([it["data"] for it in items if it["type"] == "image"])
+    def sort_key(item):
+        bbox = item["bbox"]
+        # Group items that are within 5 pixels vertically (same visual line)
+        y_grouped = round(bbox[1] / 5) * 5
+        # Then sort by x-coordinate (left to right)
+        x_pos = bbox[0]
+        return (y_grouped, x_pos)
+    
+    # Sort items by improved reading order
+    items.sort(key=sort_key)
     # Return all collected items
     # print('all_images_for_testingall_images_for_testing',all_images_for_testing)
     # JSON file create और save करना
-    with open("test_images.json", "w", encoding="utf-8") as f:
-        json.dump(all_images_for_testing, f, ensure_ascii=False, indent=4)
-        return items
+    return items
+
 # Remove option markers (A., 1., etc.) from text
 def clean_option_text(text: str) -> str:
     return OPT_MARK.sub("", text).strip()
@@ -188,22 +196,29 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     if doc.page_count > 0:
         # Get page height for offset
         page_height = doc[0].bound()[3]
+        # print("Page height:", page_height)
         # Loop through all pages
         for pagenum, page in enumerate(doc):
             if pagenum == 4:
                 # Collect items from page
                 page_items = collect_page_items(page)
-                print('--------page_items---------', page_items)
+                # print('--------page_items---------', page_items)
                 # Calculate offset based on page number
                 offset = pagenum * page_height
                 # Adjust bbox with offset
                 for it in page_items:
                     b = it["bbox"]
+                    # print('--------b---------', b)
                     it["bbox"] = (b[0], b[1] + offset, b[2], b[3] + offset)
+                    # print('--------it---------', it["bbox"])
                 # Add items to global list
                 all_items.extend(page_items)
+            with open("pageitems.json", "w", encoding="utf-8") as f:
+                json.dump(all_items, f, ensure_ascii=False, indent=4)
     # Sort all items by vertical then horizontal position
-    all_items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
+    # all_items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
+    # with open("allitems.json", "w", encoding="utf-8") as f:
+    #     json.dump(all_items, f, ensure_ascii=False, indent=4)
     # Collect text heights for median
     heights = [(it["bbox"][3] - it["bbox"][1]) for it in all_items if it["type"] == "text"]
     # Median height fallback to 12.0
@@ -214,6 +229,8 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     # print("Paragraph threshold:", paragraph_threshold)
     # Start index
     i = 0
+    # all_items = json.load(open("pageitems.json", "r", encoding="utf-8"))
+    # print('--------all_items---------', all_items)
     # Total number of items
     N = len(all_items)
     # print('Total items collected:', N)
@@ -237,7 +254,7 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
         # print('--------mfull---------', mfull)
         # If section found
         if mfull:
-            print('--------mfull----------', mfull)
+            # print('--------mfull----------', mfull)
             # Extract section title
             title = mfull.group(1).strip()
             # Reuse last section if same title
@@ -312,12 +329,14 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 if nxt["type"] == "text" and (
                     SECTION_FULL.match(nxt["text"]) or SECTION_PREFIX.match(nxt["text"]) or Q_START.match(nxt["text"])
                 ):
+                    print("Loop is breaking at this item:", nxt["text"]) 
                     break
                 j += 1
             # Copy items for question
             q_items = []
             for k in range(start, j):
                 entry = dict(all_items[k])
+                # print('--------entry---------', entry)
                 entry["_assigned"] = False
                 entry["_assigned_to"] = None 
                 q_items.append(entry)
@@ -337,6 +356,7 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                     idx = get_option_index(m.group(1))
                     label_map[idx] = t
             # If no labels found
+            # print('--------m---------', label_map)
             if not label_map:
                 buf_texts: List[str] = []
                 last_bottom = None
@@ -357,7 +377,9 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 i = j
                 continue 
             # Sort labels by vertical position
+            # print('--------label_map---------', label_map)
             labels_sorted = sorted(label_map.items(), key=lambda kv: kv[1]["bbox"][1])  
+            # print('--------labels_sorted---------', labels_sorted)
             # Get first label positions
             first_label_top = labels_sorted[0][1]["bbox"][1]
             first_label_bottom = labels_sorted[0][1]["bbox"][3]
