@@ -196,7 +196,7 @@ def extract_images_with_smask(pdf_file, output_folder="pdf_images"):
 
 # 🔹 Example usage
 pdf_path = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
-# extract_images_with_smask(pdf_path, output_folder="pdf_images")
+extract_images_with_smask(pdf_path, output_folder="pdf_images")
 
 
 

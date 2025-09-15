@@ -1,4 +1,5 @@
 # PDF processing
+from pydoc import text
 import fitz
 # Image encoding
 import base64
@@ -6,16 +7,14 @@ import base64
 import json
 # Regex patterns
 import re
-# Stats functions
-import statistics
 # Type hints
 from typing import Any, Dict, List, Tuple, Optional
 # Input PDF file path
-PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
+PDF_PATH = "SSC-CGL-Question-Paper-10-September-2024-Shift-3.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
 # Max width/height for small icons
-ICON_MAX_WH = 40  
+ICON_MAX_WH = 35  
 # Pattern to detect question numbers (e.g., Q. 1)
 Q_START = re.compile(r"^\s*Q\.\s*(\d+)", re.IGNORECASE)
 # Pattern to detect full section titles
@@ -86,37 +85,47 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
             continue
         # Loop through lines in block
         for line in block.get("lines", []):
-            # Loop through spans in line
             for span in line.get("spans", []):
-                # Extract text from span
                 text = span.get("text", "")
-                # Skip if text missing
                 if text is None:
                     continue
-                # Remove extra spaces
                 text_stripped = text.strip()
-                # Skip if empty text
                 if not text_stripped:
                     continue
-                # Get bounding box of text
                 bbox = span.get("bbox", (0, 0, 0, 0))
-                # Raw color value
                 color_raw = span.get("color", None)
-                # Parse RGB color if available else default black
                 color = parse_color(color_raw) if color_raw is not None else (0, 0, 0)
-                # Add text item
-                items.append({"type": "text", "text": text_stripped, "bbox": bbox, "color": color})
+                items.append({
+                    "type": "text",
+                    "text": text_stripped,
+                    "bbox": bbox,
+                    "color": color
+                })
                 all_texts_for_testing.append({"text": text_stripped, "bbox": bbox})
-                # Texts को JSON में save करना
-                # with open("test_texts.json", "w", encoding="utf-8") as f:
-                #     json.dump(all_texts_for_testing, f, ensure_ascii=False, indent=4)
     # Loop through all images on page
     all_images_for_testing = []
     for img in page.get_images(full=True):
-        # Image reference id
         xref = img[0]
-        # Extract image info
+        # Extract base image
         info = page.parent.extract_image(xref)
+        img_bytes = info["image"]
+        img_ext = info["ext"]
+        smask = img[1] if len(img) > 1 else None
+        if smask:
+            try:
+                smask_info = page.parent.extract_image(smask)
+                if smask_info:
+                    from PIL import Image
+                    import io
+                    base_img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+                    mask_img = Image.open(io.BytesIO(smask_info["image"])).convert("L")
+                    base_img.putalpha(mask_img)
+                    buf = io.BytesIO()
+                    base_img.save(buf, format="PNG")
+                    img_bytes = buf.getvalue()
+                    img_ext = "png"
+            except Exception as e:
+                print(f"Error applying smask: {e}")
         # Get width and height
         w, h = info.get("width", 0), info.get("height", 0)
         # Skip very small icons
@@ -127,20 +136,16 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         # Skip very large images (possible watermark)
         if w > page_w * 0.7 and h > page_h * 0.7:
             continue
-        # Extract image bytes
-        img_bytes = info["image"]
-        # print('--------img_bytes---------', len(img_bytes))
         # Get image rectangle
         rects = page.get_image_rects(xref)
-        # Skip if no rect found
         if not rects:
             continue
-        # Take first rect
         r = rects[0]
         if not (w <= ICON_MAX_WH and h <= ICON_MAX_WH):
-            all_images_for_testing.append({ 'data' :to_base64(img_bytes), "bbox": (r.x0, r.y0, r.x1, r.y1)})
-        # print('----------------r------------',r.x0)
-        # break
+            all_images_for_testing.append({
+                "data": to_base64(img_bytes),
+                "bbox": (r.x0, r.y0, r.x1, r.y1)
+            })
         # Add image item
         items.append(
             {
@@ -152,25 +157,14 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 "is_small": (w <= ICON_MAX_WH and h <= ICON_MAX_WH),
             }
         )
-    # Sort items by vertical (y) then horizontal (x)
-    # items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
-    # print("-------items-----------", items)
-    # print([it["data"] for it in items if it["type"] == "image"])
+    # Sort items in reading order
     def sort_key(item):
-        bbox = item["bbox"]
-        # Group items that are within 5 pixels vertically (same visual line)
-        y_grouped = round(bbox[1] / 5) * 5
-        # Then sort by x-coordinate (left to right)
-        x_pos = bbox[0]
-        return (y_grouped, x_pos)
-    
-    # Sort items by improved reading order
+        x0, y0, x1, y1 = item["bbox"]
+        y_center = (y0 + y1) / 2
+        y_grouped = round(y_center / 5) * 5
+        return (y_grouped, x0)
     items.sort(key=sort_key)
-    # Return all collected items
-    # print('all_images_for_testingall_images_for_testing',all_images_for_testing)
-    # JSON file create और save करना
     return items
-
 # Remove option markers (A., 1., etc.) from text
 def clean_option_text(text: str) -> str:
     return OPT_MARK.sub("", text).strip()
@@ -186,410 +180,107 @@ def get_option_index(marker: str) -> int:
 def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     # Open PDF document
     doc = fitz.open(pdf_path)
-    # Initialize result with sections list
+    # Initialize result structure with empty sections list
     result = {"sections": []}
-    # Current section being processed
-    current_section: Optional[Dict[str, Any]] = None
-    # Store all items from pages
-    all_items: List[Dict[str, Any]] = []
-    # Check if document has pages
-    if doc.page_count > 0:
-        # Get page height for offset
-        page_height = doc[0].bound()[3]
-        # print("Page height:", page_height)
-        # Loop through all pages
-        for pagenum, page in enumerate(doc):
-            if pagenum == 4:
-                # Collect items from page
-                page_items = collect_page_items(page)
-                # print('--------page_items---------', page_items)
-                # Calculate offset based on page number
-                offset = pagenum * page_height
-                # Adjust bbox with offset
-                for it in page_items:
-                    b = it["bbox"]
-                    # print('--------b---------', b)
-                    it["bbox"] = (b[0], b[1] + offset, b[2], b[3] + offset)
-                    # print('--------it---------', it["bbox"])
-                # Add items to global list
-                all_items.extend(page_items)
-            with open("pageitems.json", "w", encoding="utf-8") as f:
-                json.dump(all_items, f, ensure_ascii=False, indent=4)
-    # Sort all items by vertical then horizontal position
-    # all_items.sort(key=lambda it: (it["bbox"][1], it["bbox"][0]))
-    # with open("allitems.json", "w", encoding="utf-8") as f:
-    #     json.dump(all_items, f, ensure_ascii=False, indent=4)
-    # Collect text heights for median
-    heights = [(it["bbox"][3] - it["bbox"][1]) for it in all_items if it["type"] == "text"]
-    # Median height fallback to 12.0
-    median_height = statistics.median(heights) if heights else 12.0
-    # print("Median text height:", median_height)
-    # Threshold to detect paragraph breaks
-    paragraph_threshold = median_height * 1.6
-    # print("Paragraph threshold:", paragraph_threshold)
-    # Start index
-    i = 0
-    # all_items = json.load(open("pageitems.json", "r", encoding="utf-8"))
-    # print('--------all_items---------', all_items)
-    # Total number of items
-    N = len(all_items)
-    # print('Total items collected:', N)
-    # Loop through items
-    while i < N:
-        # Current item
-        it = all_items[i]
-        # print('--------it---------', it)
-        # Skip if not text
-        if it["type"] != "text":
-            i += 1
-            continue
-        # Extract text
-        text = it["text"]
-        # Skip if header/footer
-        if is_header_footer(text):
-            i += 1
-            continue
-        # Match full section pattern
-        mfull = SECTION_FULL.match(text)
-        # print('--------mfull---------', mfull)
-        # If section found
-        if mfull:
-            # print('--------mfull----------', mfull)
-            # Extract section title
-            title = mfull.group(1).strip()
-            # Reuse last section if same title
-            if result["sections"] and result["sections"][-1]["title"] == title:
-                current_section = result["sections"][-1]
-            # Otherwise create new section
-            else:
-                current_section = {"title": title, "questions": []}
-                result["sections"].append(current_section)
-            i += 1
-            continue
-        # Match section prefix only
-        mpref = SECTION_PREFIX.match(text)
-        # print('--------mpref---------', mpref)
-        # If prefix found
-        if mpref:
-            # print('--------mpref----------', mpref)
-            # Start from next item
-            j = i + 1
-            # Collect possible title parts
-            title_parts: List[str] = []
-            # Scan forward for title
-            while j < N and len(title_parts) < 6:
-                nxt = all_items[j]
-                if nxt["type"] != "text":
-                    break
-                if is_header_footer(nxt["text"]):
-                    break
-                if Q_START.match(nxt["text"]):
-                    break
-                if ANS.match(nxt["text"]):
-                    break
-                if OPT_MARK.match(nxt["text"]):
-                    break
-                title_parts.append(nxt["text"])
-                j += 1
-            # If title found
-            if title_parts:
-                title = " ".join(title_parts).strip()
-                if result["sections"] and result["sections"][-1]["title"] == title:
-                    current_section = result["sections"][-1]
-                else:
-                    current_section = {"title": title, "questions": []}
-                    result["sections"].append(current_section)
-                i = j
-                continue
-            else:
-                i += 1
-                continue
-        # Match question start
-        mq = Q_START.match(text)
-        # print('--------mq---------', mq)
-        if mq:
-            # If no section, create default
-            if current_section is None:
-                current_section = {"title": "Uncategorized", "questions": []}
-                result["sections"].append(current_section)
-            # Initialize question object
-            question: Dict[str, Any] = {"question": [], "options": [], "correctOption": None}
-            # print('--------question---------', question)
-            # break
-            current_section["questions"].append(question)
-            # Start scanning from next item
-            start = i + 1
-            # print('--------start---------', start)
-            j = start
-            # Find question end
-            while j < N:
-                nxt = all_items[j]
-                # print('--------nxt---------', nxt)
-                # break
-                if nxt["type"] == "text" and (
-                    SECTION_FULL.match(nxt["text"]) or SECTION_PREFIX.match(nxt["text"]) or Q_START.match(nxt["text"])
-                ):
-                    print("Loop is breaking at this item:", nxt["text"]) 
-                    break
-                j += 1
-            # Copy items for question
-            q_items = []
-            for k in range(start, j):
-                entry = dict(all_items[k])
-                # print('--------entry---------', entry)
-                entry["_assigned"] = False
-                entry["_assigned_to"] = None 
-                q_items.append(entry)
-            # Remove answer text
-            q_items = [itq for itq in q_items if not (itq["type"] == "text" and ANS.match(itq["text"]))]
-            # Remove header/footer
-            q_items = [itq for itq in q_items if not (itq["type"] == "text" and is_header_footer(itq["text"]))]
-            # Separate text items
-            text_items = [itq for itq in q_items if itq["type"] == "text"]
-            # Separate image items
-            image_items = [itq for itq in q_items if itq["type"] == "image"]
-            # Map option labels
-            label_map: Dict[int, Dict[str, Any]] = {}
-            for t in text_items:
-                m = OPT_MARK.match(t["text"])
-                if m:
-                    idx = get_option_index(m.group(1))
-                    label_map[idx] = t
-            # If no labels found
-            # print('--------m---------', label_map)
-            if not label_map:
-                buf_texts: List[str] = []
-                last_bottom = None
-                for itq in q_items:
-                    if itq["type"] == "text":
-                        cur_top = itq["bbox"][1]; cur_bottom = itq["bbox"][3]
-                        if last_bottom is not None and (cur_top - last_bottom) > paragraph_threshold:
-                            buf_texts.append("")  
-                        buf_texts.append(itq["text"])
-                        last_bottom = cur_bottom
+    # Track current section being processed
+    current_section = None
+    # Track current question being processed
+    current_question = None
+    # Flag to indicate if we're currently processing options
+    in_options = False
+    # Loop through each page in the document
+    for page in doc:
+        # Skip page 500 (seems to be a specific exclusion)
+        if page.number != 500:
+            # Collect all text and image items from current page
+            items = collect_page_items(page) 
+            # Save page items to JSON file for last page (debugging purpose)
+            if page.number == len(doc) - 1:
+                with open("pageitems.json", "w", encoding="utf-8") as f:
+                    json.dump(items, f, ensure_ascii=False, indent=4)
+        # Process each item (text or image) on the page
+        for idx, item in enumerate(items):
+            # Handle non-text items (images)
+            if item["type"] != "text":
+                # Only add images if we have a current question
+                if current_question:
+                    # If processing options, add image to last option
+                    if in_options and current_question["options"]:
+                        current_question["options"][-1].append({"type": "image", "data": item["data"]})
+                    # Otherwise add image to question content
                     else:
-                        if buf_texts:
-                            question["question"].append({"type": "text", "data": "\n".join(buf_texts)})
-                            buf_texts = []
-                        question["question"].append({"type": "image", "data": itq["data"]})
-                if buf_texts:
-                    question["question"].append({"type": "text", "data": "\n".join(buf_texts)})
-                i = j
-                continue 
-            # Sort labels by vertical position
-            # print('--------label_map---------', label_map)
-            labels_sorted = sorted(label_map.items(), key=lambda kv: kv[1]["bbox"][1])  
-            # print('--------labels_sorted---------', labels_sorted)
-            # Get first label positions
-            first_label_top = labels_sorted[0][1]["bbox"][1]
-            first_label_bottom = labels_sorted[0][1]["bbox"][3]
-            # Collect texts above first option
-            above_label_texts = [t for t in text_items if t["bbox"][1] < first_label_top and not OPT_MARK.match(t["text"])]
-            # Get last bottom position of text above
-            last_text_bottom = max((t["bbox"][3] for t in above_label_texts), default=None)
-            # Bands for each option
-            bands: Dict[int, Tuple[float, float]] = {}
-            for idx_pos, (opt_idx, label_item) in enumerate(labels_sorted):
-                top = label_item["bbox"][1] - paragraph_threshold * 0.5
-                if idx_pos + 1 < len(labels_sorted):
-                    next_top = labels_sorted[idx_pos + 1][1]["bbox"][1]
-                    bottom = (label_item["bbox"][1] + next_top) / 2.0
+                        current_question["question"].append({"type": "image", "data": item["data"]})
+                # Skip to next item
+                continue
+            # Extract text content and color from current item
+            text, color = item["text"], item.get("color", (0, 0, 0))
+            # Check if text indicates start of new section
+            if text.lower().startswith("section"):
+                # Get section title from next item
+                next_idx = idx + 1
+                title = items[next_idx]["text"].strip() if next_idx < len(items) else "Untitled"
+                # Create new section with title and empty questions list
+                current_section = {"title": title, "questions": []}
+                # Add section to result
+                result["sections"].append(current_section)
+                # Move to next item
+                continue
+            # Check if text matches question number pattern (Q. 1, Q. 2, etc.)
+            if Q_START.match(text):
+                # Create new question structure
+                current_question = {"question": [], "options": [], "correctOption": None}
+                # Create default section if none exists
+                if not current_section:
+                    current_section = {"title": "Uncategorized", "questions": []}
+                    result["sections"].append(current_section)
+                # Add question to current section
+                current_section["questions"].append(current_question)
+                # Reset options flag
+                in_options = False
+                # Move to next item
+                continue
+            # Check if text matches answer block pattern
+            if ANS.match(text):
+                # Set flag to indicate we're now processing options
+                in_options = True
+                # Move to next item
+                continue
+            # Check if text matches option marker pattern (1., A), etc.)
+            opt = OPT_MARK.match(text)
+            if in_options and opt and current_question:
+                # Extract option marker (1, 2, A, B, etc.)
+                marker = opt.group(1)
+                # Convert marker to option index (1-based)
+                opt_idx = int(marker) if marker.isdigit() else (ord(marker.lower()) - ord("a") + 1)
+                # Ensure options list has enough empty slots
+                while len(current_question["options"]) < opt_idx:
+                    current_question["options"].append([])
+                # Clean option text by removing marker
+                cleaned = clean_option_text(text)
+                # Add option text to appropriate index
+                current_question["options"][opt_idx - 1].append(
+                    {"type": "text", "data": cleaned, "_color": color}
+                )
+                # Check if option text is green (indicates correct answer)
+                if is_green(color):
+                    current_question["correctOption"] = opt_idx
+                # Move to next item
+                continue
+            # Handle regular text that doesn't match special patterns
+            if current_question:
+                # If processing options, add to last option
+                if in_options and current_question["options"]:
+                    current_question["options"][-1].append({"type": "text", "data": text, "_color": color})
+                # Otherwise add to question content
                 else:
-                    bottom = label_item["bbox"][3] + paragraph_threshold * 2.0
-                bands[opt_idx] = (top, bottom)
-            # Get maximum label index
-            max_label_idx = max(label_map.keys())
-            # Create options list
-            options: List[List[Dict[str, Any]]] = [[] for _ in range(max_label_idx + 1)]
-            # Assign labels as option starters
-            for opt_idx, label_item in label_map.items():
-                label_item["_assigned"] = True
-                label_item["_assigned_to"] = opt_idx
-                cleaned = clean_option_text(label_item["text"])
-                if cleaned:
-                    options[opt_idx].append({"type": "text", "data": cleaned, "_color": label_item.get("color")})
-            # Assign text pieces to options
-            for t in text_items:
-                if OPT_MARK.match(t["text"]):
-                    continue
-                cy = (t["bbox"][1] + t["bbox"][3]) / 2.0
-                assigned_flag = False
-                for opt_idx, (top, bottom) in bands.items():
-                    if cy >= top and cy < bottom:
-                        t["_assigned"] = True
-                        t["_assigned_to"] = opt_idx
-                        options[opt_idx].append({"type": "text", "data": t["text"], "_color": t.get("color")})
-                        assigned_flag = True
-                        break
-                if not assigned_flag:
-                    continue
-            # Assign images to options
-            for im in image_items:
-                if im.get("_assigned"):
-                    continue
-                cy = (im["bbox"][1] + im["bbox"][3]) / 2.0
-                cx = (im["bbox"][0] + im["bbox"][2]) / 2.0
-                if last_text_bottom is not None and cy < first_label_top:
-                    dist_to_text = abs(cy - last_text_bottom)
-                    label_center_y = (label_map[labels_sorted[0][0]]["bbox"][1] + label_map[labels_sorted[0][0]]["bbox"][3]) / 2.0
-                    dist_to_label = abs(cy - label_center_y)
-                    if dist_to_text <= dist_to_label + (median_height * 0.6):
-                        im["_assigned"] = False
-                        im["_assigned_to"] = None
-                        continue 
-                best_idx = None
-                best_dist = 1e9
-                for opt_idx, label_item in label_map.items():
-                    label_cy = (label_item["bbox"][1] + label_item["bbox"][3]) / 2.0
-                    d = abs(cy - label_cy)
-                    if d < best_dist:
-                        best_dist = d
-                        best_idx = opt_idx
-                if best_idx is not None:
-                    im["_assigned"] = True
-                    im["_assigned_to"] = best_idx
-                    options[best_idx].append({"type": "image", "data": im["data"], "_bbox": im.get("bbox")})
-            # Count options with text
-            has_text_counts = sum(1 for opt in options if any(p.get("type") == "text" for p in opt))
-            # Count options with images
-            has_image_counts = sum(1 for opt in options if any(p.get("type") == "image" for p in opt))
-            # If enough text options exist
-            if has_text_counts >= max(1, (len(options) // 2)):
-                for opt_idx in range(len(options)):
-                    imgs = [p for p in options[opt_idx] if p.get("type") == "image"]
-                    if imgs:
-                        options[opt_idx] = [p for p in options[opt_idx] if p.get("type") != "image"]
-                        for im in imgs:
-                            for itq in q_items:
-                                if itq["type"] == "image" and itq.get("data") == im.get("data"):
-                                    itq["_assigned"] = False
-                                    itq["_assigned_to"] = None
-                                    break
-            # If more images than texts
-            else:
-                for opt_idx in range(len(options)):
-                    texts = [p for p in options[opt_idx] if p.get("type") == "text"]
-                    if texts:
-                        options[opt_idx] = [p for p in options[opt_idx] if p.get("type") != "text"]
-                        for tx in texts:
-                            for itq in q_items:
-                                if itq["type"] == "text" and itq.get("text") == tx.get("data"):
-                                    itq["_assigned"] = False
-                                    itq["_assigned_to"] = None
-                                    break
-            # Handle extra images
-            if any(any(p["type"] == "image" for p in opt) for opt in options):
-                extras: List[Tuple[int, Dict[str, Any]]] = [] 
-                empty_image_slots: List[int] = []
-                for idx_opt, opt in enumerate(options):
-                    imgs = [p for p in opt if p.get("type") == "image"]
-                    if len(imgs) == 0:
-                        empty_image_slots.append(idx_opt)
-                    elif len(imgs) > 1:
-                        for extra in imgs[1:]:
-                            extras.append((idx_opt, extra))
-                        first_img = imgs[0]
-                        options[idx_opt] = [p for p in opt if not (p.get("type") == "image" and p is not first_img)]
-                for from_idx, image_piece in extras:
-                    if not empty_image_slots:
-                        for itq in q_items:
-                            if itq["type"] == "image" and itq.get("data") == image_piece.get("data"):
-                                itq["_assigned"] = False
-                                itq["_assigned_to"] = None
-                                break
-                        continue
-                    best_empty = min(empty_image_slots, key=lambda x: abs(x - from_idx))
-                    empty_image_slots.remove(best_empty)
-                    options[best_empty].append(image_piece)
-                    for itq in q_items:
-                        if itq["type"] == "image" and itq.get("data") == image_piece.get("data"):
-                            itq["_assigned"] = True
-                            itq["_assigned_to"] = best_empty
-                            break
-            # Reassign unassigned items
-            for itq in q_items:
-                if itq["_assigned_to"] is None:
-                    if itq["type"] == "image":
-                        for opt_idx in range(len(options)):
-                            for p in options[opt_idx]:
-                                if p.get("type") == "image" and p.get("data") == itq.get("data"):
-                                    itq["_assigned"] = True
-                                    itq["_assigned_to"] = opt_idx
-                                    break
-                            if itq["_assigned"]:
-                                break
-                    elif itq["type"] == "text":
-                        for opt_idx in range(len(options)):
-                            for p in options[opt_idx]:
-                                if p.get("type") == "text" and p.get("data") == itq.get("text"):
-                                    itq["_assigned"] = True
-                                    itq["_assigned_to"] = opt_idx
-                                    break
-                            if itq["_assigned"]:
-                                break
-            # Buffer for question text lines
-            buf_lines: List[str] = []
-            last_bottom = None
-            # Helper function to flush buffer
-            def flush_buf():
-                nonlocal buf_lines
-                if buf_lines:
-                    question["question"].append({"type": "text", "data": "\n".join(buf_lines)})
-                    buf_lines = []
-            # Collect remaining unassigned question parts
-            for itq in q_items:
-                if itq.get("_assigned"):
-                    continue
-                if itq["type"] == "text":
-                    cur_top = itq["bbox"][1]; cur_bottom = itq["bbox"][3]
-                    if last_bottom is not None and (cur_top - last_bottom) > paragraph_threshold:
-                        buf_lines.append("") 
-                    buf_lines.append(itq["text"])
-                    last_bottom = cur_bottom
-                else:
-                    flush_buf()
-                    question["question"].append({"type": "image", "data": itq["data"]})
-            flush_buf()
-            # Assign options to question
-            question["options"] = []
-            for opt_idx in range(len(options)):
-                opt_pieces = []
-                for itq in q_items:
-                    if itq.get("_assigned_to") == opt_idx:
-                        if itq["type"] == "text":
-                            opt_pieces.append({"type": "text", "data": itq["text"], "_color": itq.get("color")})
-                        else:
-                            opt_pieces.append({"type": "image", "data": itq["data"]})
-                if not opt_pieces and options[opt_idx]:
-                    for p in options[opt_idx]:
-                        opt_pieces.append(p)
-                question["options"].append(opt_pieces)
-            i = j
-            continue
-        i += 1
-    # Final pass for each section
+                    current_question["question"].append({"type": "text", "data": text})
+    # Remove temporary color fields from all options
     for section in result["sections"]:
         for q in section["questions"]:
-            if q["options"]:
-                # print('--------q---------', q['options'])
-                # break
-                for idx, opt in enumerate(q["options"], start=1):
-                    first_txt = next((p for p in opt if p.get("type") == "text" and "_color" in p), None)
-                    if first_txt and not is_red(first_txt["_color"]):
-                        q["correctOption"] = idx
-                        break
             for opt in q["options"]:
                 for piece in opt:
-                    if isinstance(piece, dict):
-                        piece.pop("_color", None)
-                        piece.pop("_bbox", None)
-                        piece.pop("is_small", None)
-            for piece in q["question"]:
-                if isinstance(piece, dict):
-                    piece.pop("_bbox", None)
-                    piece.pop("is_small", None)
-    # print('--------Finished processing all items---------', result)
-    # Return structured result
+                    piece.pop("_color", None)
+    # Return the structured result
     return result
 # Standard Python entry point check
 if __name__ == "__main__":
