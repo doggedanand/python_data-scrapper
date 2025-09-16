@@ -10,11 +10,11 @@ import re
 # Type hints
 from typing import Any, Dict, List, Tuple, Optional
 # Input PDF file path
-PDF_PATH = "SSC-CGL-Question-Paper-10-September-2024-Shift-3.pdf"
+PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-10-September-2024-Shift-1.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
 # Max width/height for small icons
-ICON_MAX_WH = 35  
+ICON_MAX_WH = 35
 # Pattern to detect question numbers (e.g., Q. 1)
 Q_START = re.compile(r"^\s*Q\.\s*(\d+)", re.IGNORECASE)
 # Pattern to detect full section titles
@@ -77,7 +77,6 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
     items: List[Dict[str, Any]] = []
     # Extract page content as dict
     d = page.get_text("dict")
-    all_texts_for_testing = []
     # Loop through all blocks
     for block in d.get("blocks", []):
         # Skip non-text blocks
@@ -101,9 +100,7 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                     "bbox": bbox,
                     "color": color
                 })
-                all_texts_for_testing.append({"text": text_stripped, "bbox": bbox})
     # Loop through all images on page
-    all_images_for_testing = []
     for img in page.get_images(full=True):
         xref = img[0]
         # Extract base image
@@ -141,11 +138,6 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         if not rects:
             continue
         r = rects[0]
-        if not (w <= ICON_MAX_WH and h <= ICON_MAX_WH):
-            all_images_for_testing.append({
-                "data": to_base64(img_bytes),
-                "bbox": (r.x0, r.y0, r.x1, r.y1)
-            })
         # Add image item
         items.append(
             {
@@ -176,111 +168,233 @@ def get_option_index(marker: str) -> int:
     # If alphabetic option (a,b,c,d)
     else:
         return ord(marker.lower()) - ord("a")
-# Parse PDF and extract structured questions
+# Define function to parse PDF and extract structured questions
 def parse_pdf(pdf_path: str) -> Dict[str, Any]:
-    # Open PDF document
+    # Open the PDF document using fitz
     doc = fitz.open(pdf_path)
-    # Initialize result structure with empty sections list
+    # Initialize result dictionary with empty sections list
     result = {"sections": []}
-    # Track current section being processed
+    # Initialize variable to track current section
     current_section = None
-    # Track current question being processed
+    # Initialize variable to track current question
     current_question = None
-    # Flag to indicate if we're currently processing options
+    # Initialize flag to track if processing options
     in_options = False
-    # Loop through each page in the document
+    # Iterate through each page in the PDF
     for page in doc:
-        # Skip page 500 (seems to be a specific exclusion)
-        if page.number != 500:
-            # Collect all text and image items from current page
-            items = collect_page_items(page) 
-            # Save page items to JSON file for last page (debugging purpose)
-            if page.number == len(doc) - 1:
-                with open("pageitems.json", "w", encoding="utf-8") as f:
-                    json.dump(items, f, ensure_ascii=False, indent=4)
-        # Process each item (text or image) on the page
-        for idx, item in enumerate(items):
-            # Handle non-text items (images)
+        # Collect text and image items from the page
+        items = collect_page_items(page)
+        # Check if page number is 5 for debugging
+        if page.number == 5:
+            # Open file to save page items as JSON
+            with open("pageitems.json", "w", encoding="utf-8") as f:
+                # Write items to JSON file with proper encoding
+                json.dump(items, f, ensure_ascii=False, indent=4)
+        # Initialize index for processing items
+        idx = 0
+        # Process each item on the page
+        while idx < len(items):
+            # Get the current item
+            item = items[idx]
+            # Check if item is not text (i.e., image)
             if item["type"] != "text":
-                # Only add images if we have a current question
+                # Check if there is a current question
                 if current_question:
-                    # If processing options, add image to last option
+                    # Check if in options mode and options exist
                     if in_options and current_question["options"]:
+                        # Append image to the last option
                         current_question["options"][-1].append({"type": "image", "data": item["data"]})
-                    # Otherwise add image to question content
+                    # If not in options, add image to question
                     else:
                         current_question["question"].append({"type": "image", "data": item["data"]})
-                # Skip to next item
+                # Increment index to next item
+                idx += 1
+                # Continue to next iteration
                 continue
-            # Extract text content and color from current item
-            text, color = item["text"], item.get("color", (0, 0, 0))
-            # Check if text indicates start of new section
-            if text.lower().startswith("section"):
-                # Get section title from next item
+            # Extract text from the item
+            text = item["text"]
+            # Extract color from the item, default to black
+            color = item.get("color", (0, 0, 0))
+            # Check if text starts with "section :"
+            if text.lower().startswith("section :"):
+                # Calculate index of next item
                 next_idx = idx + 1
+                # Get section title from next item or use default
                 title = items[next_idx]["text"].strip() if next_idx < len(items) else "Untitled"
-                # Create new section with title and empty questions list
+                # Create new section dictionary
                 current_section = {"title": title, "questions": []}
-                # Add section to result
+                # Append section to result
                 result["sections"].append(current_section)
-                # Move to next item
+                # Update index to skip title item
+                idx = next_idx + 1
+                # Continue to next iteration
                 continue
-            # Check if text matches question number pattern (Q. 1, Q. 2, etc.)
-            if Q_START.match(text):
-                # Create new question structure
+            # Check if text starts with "comprehension:"
+            if text.lower().startswith("comprehension:"):
+                # Create new question dictionary
                 current_question = {"question": [], "options": [], "correctOption": None}
-                # Create default section if none exists
+                # Check if current section exists
                 if not current_section:
+                    # Create default section if none exists
                     current_section = {"title": "Uncategorized", "questions": []}
+                    # Append default section to result
                     result["sections"].append(current_section)
-                # Add question to current section
+                # Append question to current section
                 current_section["questions"].append(current_question)
                 # Reset options flag
                 in_options = False
-                # Move to next item
+                # Increment index to next item
+                idx += 1
+                # Collect items until answer marker is found
+                while idx < len(items) and not ANS.match(items[idx]["text"]):
+                    # Get current comprehension item
+                    comp_item = items[idx]
+                    # Check if item is text
+                    if comp_item["type"] == "text":
+                        # Append text to question
+                        current_question["question"].append({"type": "text", "data": comp_item["text"]})
+                    # If item is image
+                    else:
+                        # Append image to question
+                        current_question["question"].append({"type": "image", "data": comp_item["data"]})
+                    # Increment index
+                    idx += 1
+                # Continue to next iteration
                 continue
-            # Check if text matches answer block pattern
+            # Check if text matches question number pattern
+            if Q_START.match(text):
+                # Create new question dictionary
+                current_question = {"question": [], "options": [], "correctOption": None}
+                # Check if current section exists
+                if not current_section:
+                    # Create default section if none exists
+                    current_section = {"title": "Uncategorized", "questions": []}
+                    # Append default section to result
+                    result["sections"].append(current_section)
+                # Append question to current section
+                current_section["questions"].append(current_question)
+                # Reset options flag
+                in_options = False
+                # Increment index
+                idx += 1
+                # Continue to next iteration
+                continue
+            # Check if text matches answer marker
             if ANS.match(text):
-                # Set flag to indicate we're now processing options
+                # Set flag to indicate options processing
                 in_options = True
-                # Move to next item
+                # Increment index
+                idx += 1
+                # Continue to next iteration
                 continue
-            # Check if text matches option marker pattern (1., A), etc.)
+            # Check if text matches option marker and in options mode
             opt = OPT_MARK.match(text)
             if in_options and opt and current_question:
-                # Extract option marker (1, 2, A, B, etc.)
+                # Extract option marker
                 marker = opt.group(1)
-                # Convert marker to option index (1-based)
+                # Convert marker to 0-based index
                 opt_idx = int(marker) if marker.isdigit() else (ord(marker.lower()) - ord("a") + 1)
-                # Ensure options list has enough empty slots
+                # Ensure options list has enough slots
                 while len(current_question["options"]) < opt_idx:
+                    # Append empty option list
                     current_question["options"].append([])
-                # Clean option text by removing marker
+                # Clean option text
                 cleaned = clean_option_text(text)
-                # Add option text to appropriate index
-                current_question["options"][opt_idx - 1].append(
-                    {"type": "text", "data": cleaned, "_color": color}
-                )
-                # Check if option text is green (indicates correct answer)
+                # Append option text with color
+                current_question["options"][opt_idx - 1].append({"type": "text", "data": cleaned, "_color": color})
+                # Check if option is marked correct (green)
                 if is_green(color):
+                    # Set correct option index
                     current_question["correctOption"] = opt_idx
-                # Move to next item
+                # Increment index
+                idx += 1
+                # Continue to next iteration
                 continue
-            # Handle regular text that doesn't match special patterns
+            # Check if there is a current question
             if current_question:
-                # If processing options, add to last option
+                # Check if in options mode with existing options
                 if in_options and current_question["options"]:
+                    # Append text to last option with color
                     current_question["options"][-1].append({"type": "text", "data": text, "_color": color})
-                # Otherwise add to question content
+                # If not in options, append text to question
                 else:
                     current_question["question"].append({"type": "text", "data": text})
-    # Remove temporary color fields from all options
+            # Increment index
+            idx += 1
+    # Iterate through all sections
     for section in result["sections"]:
+        # Iterate through all questions in section
         for q in section["questions"]:
+            # Iterate through all options in question
             for opt in q["options"]:
+                # Iterate through all pieces in option
                 for piece in opt:
+                    # Remove temporary color field
                     piece.pop("_color", None)
-    # Return the structured result
+    # Return the parsed result
+    return result
+# Define function to merge text lines in questions based on length threshold
+def merge_lines(result: Dict[str, Any], line_length_threshold: int) -> Dict[str, Any]:
+    # Iterate through each section in the result
+    for section in result["sections"]:
+        # Iterate through each question in the section
+        for question in section["questions"]:
+            # Initialize list for merged question content
+            merged_question = []
+            # Initialize index for processing question items
+            i = 0
+            # Process each item in the question
+            while i < len(question["question"]):
+                # Get the current item
+                current_item = question["question"][i]
+                # Check if the item is an image
+                if current_item["type"] == "image":
+                    # Add image item as-is to merged list
+                    merged_question.append(current_item)
+                    # Increment index
+                    i += 1
+                    # Continue to next item
+                    continue
+                # Check if the item is text
+                if current_item["type"] == "text":
+                    # Get the text data from the item
+                    current_text = current_item["data"]
+                    # Check if text length meets or exceeds threshold
+                    if len(current_text) >= line_length_threshold:
+                        # Start with current text
+                        merged_text = current_text
+                        # Set index for checking next items
+                        j = i + 1
+                        # Merge consecutive text lines that meet threshold
+                        while (j < len(question["question"]) and 
+                               question["question"][j]["type"] == "text" and
+                               len(question["question"][j]["data"]) >= line_length_threshold):
+                            # Append next text with a space
+                            merged_text += " " + question["question"][j]["data"]
+                            # Increment inner index
+                            j += 1
+                        # Merge first text line that doesn't meet threshold, if it exists
+                        if (j < len(question["question"]) and 
+                            question["question"][j]["type"] == "text"):
+                            # Append next text with a space
+                            merged_text += " " + question["question"][j]["data"]
+                            # Increment inner index
+                            j += 1
+                        # Add merged text as a single item
+                        merged_question.append({
+                            "type": "text",
+                            "data": merged_text
+                        })
+                        # Update index to next unprocessed item
+                        i = j
+                    else:
+                        # Add text item as-is if below threshold
+                        merged_question.append(current_item)
+                        # Increment index
+                        i += 1
+            # Update question with merged content
+            question["question"] = merged_question
+    # Return the modified result
     return result
 # Standard Python entry point check
 if __name__ == "__main__":
@@ -292,4 +406,3 @@ if __name__ == "__main__":
         json.dump(parsed, fh, ensure_ascii=False, indent=2)
     # Print confirmation message with file name
     print("saved", OUTPUT_JSON)
-
