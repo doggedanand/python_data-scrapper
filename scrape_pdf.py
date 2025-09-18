@@ -1,6 +1,7 @@
 # PDF processing
 from pydoc import text
 import fitz
+import pdfplumber
 # Image encoding
 import base64
 # JSON handling
@@ -9,8 +10,9 @@ import json
 import re
 # Type hints
 from typing import Any, Dict, List, Tuple, Optional
+import os
 # Input PDF file path
-PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-10-September-2024-Shift-1.pdf"
+PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
 # Max width/height for small icons
@@ -125,9 +127,6 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 print(f"Error applying smask: {e}")
         # Get width and height
         w, h = info.get("width", 0), info.get("height", 0)
-        # Skip very small icons
-        if w < ICON_MAX_WH and h < ICON_MAX_WH:
-            continue
         page_w = page.rect.width
         page_h = page.rect.height
         # Skip very large images (possible watermark)
@@ -138,6 +137,9 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         if not rects:
             continue
         r = rects[0]
+        # Skip very small icons
+        if w < ICON_MAX_WH and h < ICON_MAX_WH and r.x0 < page_w * 0.125:
+            continue
         # Add image item
         items.append(
             {
@@ -168,6 +170,52 @@ def get_option_index(marker: str) -> int:
     # If alphabetic option (a,b,c,d)
     else:
         return ord(marker.lower()) - ord("a")
+def extract_all_tables(pdf_path: str) -> Dict[int, List[Dict]]:
+    # Helper function to filter out false positives
+    # Only keep tables that look like real structured tables
+    def looks_like_real_table(tbl):
+        extracted = tbl.extract()
+        if not extracted or len(extracted) < 3:
+            return False
+        # Count non-empty cells per column
+        col_counts = [sum(1 for row in extracted if row and i < len(row) and row[i]) 
+                      for i in range(len(extracted[0]))]
+        # A "real" table should have multiple dense columns
+        dense_cols = sum(1 for c in col_counts if c >= len(extracted) // 2)
+        return dense_cols >= 3
+    # Dictionary to hold extracted tables page-wise
+    all_tables = {}
+    # Table detection settings for pdfplumber
+    table_settings = {
+        "vertical_strategy": "lines",
+        "horizontal_strategy": "lines",
+        "snap_tolerance": 3,
+        "join_tolerance": 3,
+        "edge_min_length": 50,
+    }
+    # Open PDF with pdfplumber
+    with pdfplumber.open(pdf_path) as plumber_doc:
+        # Iterate through all pages
+        for page_num, page in enumerate(plumber_doc.pages, start=1):
+            try:
+                # Detect tables on current page
+                tables = page.find_tables(table_settings)
+                extracted_tables = []
+                for tbl in tables:
+                    # Only keep valid tables
+                    if looks_like_real_table(tbl):
+                        data = tbl.extract()
+                        extracted_tables.append({
+                            "bbox": tbl.bbox,   
+                            "data": data         
+                        })
+                # Save tables if any found on this page
+                if extracted_tables:
+                    all_tables[page_num] = extracted_tables
+            except Exception as e:
+                print(f"Warning: Failed to extract tables on page {page_num}: {e}")
+    # Return all tables from the PDF, organized by page number
+    return all_tables
 # Define function to parse PDF and extract structured questions
 def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     # Open the PDF document using fitz
@@ -180,6 +228,8 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     current_question = None
     # Initialize flag to track if processing options
     in_options = False
+    # Extract all tables from the PDF
+    all_tables = extract_all_tables(PDF_PATH)
     # Iterate through each page in the PDF
     for page in doc:
         # Collect text and image items from the page
@@ -241,6 +291,8 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                     result["sections"].append(current_section)
                 # Append question to current section
                 current_section["questions"].append(current_question)
+                # Add comprehension text to question
+                current_question["question"].append({"type": "text", "data": "Comprehension:"})
                 # Reset options flag
                 in_options = False
                 # Increment index to next item
@@ -321,6 +373,8 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                     current_question["question"].append({"type": "text", "data": text})
             # Increment index
             idx += 1
+    all_tables = extract_all_tables(PDF_PATH)
+    # print("Extracted tables from PDF:", all_tables)
     # Iterate through all sections
     for section in result["sections"]:
         # Iterate through all questions in section
@@ -331,6 +385,8 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 for piece in opt:
                     # Remove temporary color field
                     piece.pop("_color", None)
+    # Merge lines in questions based on length threshold
+    result = merge_lines(result, line_length_threshold=111)
     # Return the parsed result
     return result
 # Define function to merge text lines in questions based on length threshold
