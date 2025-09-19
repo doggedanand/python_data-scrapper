@@ -13,6 +13,7 @@ from typing import Any, Dict, List, Tuple, Optional
 import os
 # Input PDF file path
 PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
+# PDF_PATH = "SSC-CGL-24-September-2024-Shift-1.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
 # Max width/height for small icons
@@ -84,80 +85,154 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         # Skip non-text blocks
         if block.get("type", 0) != 0:
             continue
-        # Loop through lines in block
+        # Iterate through each line in the block
         for line in block.get("lines", []):
+            # Iterate through each span in the line
             for span in line.get("spans", []):
+                # Extract text from the span, default to empty string if not found
                 text = span.get("text", "")
+                # Skip if text is None
                 if text is None:
                     continue
+                # Strip whitespace from text
                 text_stripped = text.strip()
+                # Skip if text is empty after stripping
                 if not text_stripped:
                     continue
+                # Extract bounding box coordinates, default to (0, 0, 0, 0) if not found
                 bbox = span.get("bbox", (0, 0, 0, 0))
+                # Extract raw color value, default to None if not found
                 color_raw = span.get("color", None)
+                # Parse color to RGB tuple, default to black (0, 0, 0) if no color
                 color = parse_color(color_raw) if color_raw is not None else (0, 0, 0)
+                # Append text item with its properties to the items list
                 items.append({
+                    # Set item type to text
                     "type": "text",
+                    # Store stripped text content
                     "text": text_stripped,
+                    # Store bounding box coordinates
                     "bbox": bbox,
+                    # Store RGB color tuple
                     "color": color
                 })
-    # Loop through all images on page
+    # Iterate through all images on the page with full details
     for img in page.get_images(full=True):
+        # Extract the image's XREF (cross-reference) identifier
         xref = img[0]
-        # Extract base image
+        # Extract image information using the XREF
         info = page.parent.extract_image(xref)
+        # Get the image's raw bytes
         img_bytes = info["image"]
+        # Get the image's file extension
         img_ext = info["ext"]
+        # Check for soft mask (smask) if image tuple has more than one element
         smask = img[1] if len(img) > 1 else None
+        # Process soft mask if present
         if smask:
+            # Attempt to apply the soft mask to the image
             try:
+                # Extract soft mask image information
                 smask_info = page.parent.extract_image(smask)
+                # Proceed if soft mask information is available
                 if smask_info:
+                    # Import PIL for image processing
                     from PIL import Image
+                    # Import io for handling byte streams
                     import io
+                    # Open base image and convert to RGB
                     base_img = Image.open(io.BytesIO(img_bytes)).convert("RGB")
+                    # Open soft mask image and convert to grayscale
                     mask_img = Image.open(io.BytesIO(smask_info["image"])).convert("L")
+                    # Apply the soft mask as an alpha channel
                     base_img.putalpha(mask_img)
+                    # Create a buffer for saving the processed image
                     buf = io.BytesIO()
+                    # Save the image with alpha channel as PNG
                     base_img.save(buf, format="PNG")
+                    # Update image bytes with the processed image
                     img_bytes = buf.getvalue()
+                    # Update file extension to PNG
                     img_ext = "png"
+            # Handle any errors during soft mask processing
             except Exception as e:
+                # Print error message for soft mask processing failure
                 print(f"Error applying smask: {e}")
-        # Get width and height
+        # Extract image width, default to 0 if not found
         w, h = info.get("width", 0), info.get("height", 0)
+        # Get the page width
         page_w = page.rect.width
+        # Get the page height
         page_h = page.rect.height
-        # Skip very large images (possible watermark)
+        # Skip images that are too large (likely watermarks)
         if w > page_w * 0.7 and h > page_h * 0.7:
+            # Continue to next image
             continue
-        # Get image rectangle
+        # Get the image's bounding rectangles
         rects = page.get_image_rects(xref)
+        # Skip if no rectangles are found
         if not rects:
+            # Continue to next image
             continue
+        # Use the first rectangle for bounding box
         r = rects[0]
-        # Skip very small icons
+        # Skip small icons located near the page's left margin
         if w < ICON_MAX_WH and h < ICON_MAX_WH and r.x0 < page_w * 0.125:
+            # Continue to next image
             continue
-        # Add image item
+        # Append image item to the items list
         items.append(
             {
+                # Set item type to image
                 "type": "image",
+                # Convert image bytes to base64 string
                 "data": to_base64(img_bytes),
+                # Store bounding box coordinates
                 "bbox": (r.x0, r.y0, r.x1, r.y1),
+                # Store image width
                 "w": w,
+                # Store image height
                 "h": h,
+                # Indicate if the image is small (icon-sized)
                 "is_small": (w <= ICON_MAX_WH and h <= ICON_MAX_WH),
             }
         )
-    # Sort items in reading order
+    # Extract only this page's tables
+    tables_for_page = extract_all_tables(PDF_PATH, page.number + 1).get(page.number + 1, [])
+    # Check if tables were found on the page
+    if tables_for_page:
+        # Extract bounding boxes for all tables on the page
+        all_bboxes = [tbl["bbox"] for tbl in tables_for_page]
+        # Find minimum x-coordinate (left edge) across all table bounding boxes
+        x0 = min(b[0] for b in all_bboxes)
+        # Find minimum y-coordinate (top edge) across all table bounding boxes
+        y0 = min(b[1] for b in all_bboxes)
+        # Find maximum x-coordinate (right edge) across all table bounding boxes
+        x1 = max(b[2] for b in all_bboxes)
+        # Find maximum y-coordinate (bottom edge) across all table bounding boxes
+        y1 = max(b[3] for b in all_bboxes)
+        # Append a single table item to the items list
+        items.append({
+            # Set item type to table
+            "type": "table",
+            # Collect data from all tables on the page
+            "data": [tbl["data"] for tbl in tables_for_page],
+            # Define a single bounding box encompassing all tables
+            "bbox": (x0, y0, x1, y1)  # single bbox for all
+        })
+    # Define function to sort items in reading order
     def sort_key(item):
+        # Extract bounding box coordinates from the item
         x0, y0, x1, y1 = item["bbox"]
+        # Calculate the vertical center of the bounding box
         y_center = (y0 + y1) / 2
+        # Group y-center into 5-unit intervals for consistent sorting
         y_grouped = round(y_center / 5) * 5
+        # Return a tuple for sorting by grouped y-coordinate and x-coordinate
         return (y_grouped, x0)
+    # Sort the items list using the sort_key function
     items.sort(key=sort_key)
+    # Return the sorted items list
     return items
 # Remove option markers (A., 1., etc.) from text
 def clean_option_text(text: str) -> str:
@@ -170,51 +245,69 @@ def get_option_index(marker: str) -> int:
     # If alphabetic option (a,b,c,d)
     else:
         return ord(marker.lower()) - ord("a")
-def extract_all_tables(pdf_path: str) -> Dict[int, List[Dict]]:
-    # Helper function to filter out false positives
-    # Only keep tables that look like real structured tables
+# Define function to extract tables from a PDF, optionally for a specific page
+def extract_all_tables(pdf_path: str, page_num: Optional[int] = None) -> Dict[int, List[Dict]]:
+    # Define helper function to filter out false positive tables
     def looks_like_real_table(tbl):
+        # Extract table content as a list of rows
         extracted = tbl.extract()
+        # Check if table is empty or has fewer than 3 rows
         if not extracted or len(extracted) < 3:
+            # Return False if table is not valid
             return False
         # Count non-empty cells per column
         col_counts = [sum(1 for row in extracted if row and i < len(row) and row[i]) 
                       for i in range(len(extracted[0]))]
-        # A "real" table should have multiple dense columns
+        # Count columns with at least half the rows having non-empty cells
         dense_cols = sum(1 for c in col_counts if c >= len(extracted) // 2)
+        # Return True if table has at least 3 dense columns
         return dense_cols >= 3
-    # Dictionary to hold extracted tables page-wise
+    # Initialize dictionary to store tables by page number
     all_tables = {}
-    # Table detection settings for pdfplumber
+    # Define table detection settings for pdfplumber
     table_settings = {
+        # Use lines for vertical table boundaries
         "vertical_strategy": "lines",
+        # Use lines for horizontal table boundaries
         "horizontal_strategy": "lines",
+        # Set tolerance for snapping lines to table edges
         "snap_tolerance": 3,
+        # Set tolerance for joining nearby lines
         "join_tolerance": 3,
+        # Set minimum length for table edges
         "edge_min_length": 50,
     }
-    # Open PDF with pdfplumber
+    # Open PDF file using pdfplumber
     with pdfplumber.open(pdf_path) as plumber_doc:
-        # Iterate through all pages
-        for page_num, page in enumerate(plumber_doc.pages, start=1):
+        # Determine pages to process: single page if specified, else all pages
+        pages_to_process = [page_num] if page_num else range(1, len(plumber_doc.pages) + 1)
+        # Iterate through pages to process
+        for pnum in pages_to_process:
+            # Get page object from pdfplumber (0-based index)
+            page = plumber_doc.pages[pnum - 1]
+            # Begin try block to handle potential errors during table extraction
             try:
-                # Detect tables on current page
+                # Find tables on the page using specified settings
                 tables = page.find_tables(table_settings)
+                # Initialize list to store valid tables for this page
                 extracted_tables = []
+                # Iterate through detected tables
                 for tbl in tables:
-                    # Only keep valid tables
+                    # Check if table is valid using helper function
                     if looks_like_real_table(tbl):
+                        # Extract table data as a list of rows
                         data = tbl.extract()
-                        extracted_tables.append({
-                            "bbox": tbl.bbox,   
-                            "data": data         
-                        })
-                # Save tables if any found on this page
+                        # Append table data and bounding box to list
+                        extracted_tables.append({"bbox": tbl.bbox, "data": data})
+                # Check if any valid tables were found
                 if extracted_tables:
-                    all_tables[page_num] = extracted_tables
+                    # Store extracted tables in dictionary under page number
+                    all_tables[pnum] = extracted_tables
+            # Catch any exceptions during table extraction
             except Exception as e:
-                print(f"Warning: Failed to extract tables on page {page_num}: {e}")
-    # Return all tables from the PDF, organized by page number
+                # Print warning message with page number and error
+                print(f"Warning: Failed to extract tables on page {pnum}: {e}")
+    # Return dictionary of extracted tables organized by page number
     return all_tables
 # Define function to parse PDF and extract structured questions
 def parse_pdf(pdf_path: str) -> Dict[str, Any]:
@@ -228,14 +321,12 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
     current_question = None
     # Initialize flag to track if processing options
     in_options = False
-    # Extract all tables from the PDF
-    all_tables = extract_all_tables(PDF_PATH)
     # Iterate through each page in the PDF
     for page in doc:
         # Collect text and image items from the page
         items = collect_page_items(page)
         # Check if page number is 5 for debugging
-        if page.number == 5:
+        if page.number == 10:
             # Open file to save page items as JSON
             with open("pageitems.json", "w", encoding="utf-8") as f:
                 # Write items to JSON file with proper encoding
@@ -247,7 +338,7 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
             # Get the current item
             item = items[idx]
             # Check if item is not text (i.e., image)
-            if item["type"] != "text":
+            if item["type"] == "image":
                 # Check if there is a current question
                 if current_question:
                     # Check if in options mode and options exist
@@ -260,6 +351,25 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                 # Increment index to next item
                 idx += 1
                 # Continue to next iteration
+                continue
+            # Check if the current item is a table
+            if item["type"] == "table":
+                # Check if there is an active question being processed
+                if current_question:
+                    # Check if currently processing options and options list is not empty
+                    if in_options and current_question["options"]:
+                        # Append table data to the last option of the current question
+                        current_question["options"][-1].append({"type": "table", "data": item["data"]})
+                    # If not in options mode, append table data to the question body
+                    else:
+                        current_question["question"].append({"type": "table", "data": item["data"]})
+                # If no active question, store table separately
+                else:
+                    # Add table to result's tables list, initializing list if needed
+                    result.setdefault("tables", []).append(item)
+                # Increment index to move to the next item
+                idx += 1
+                # Skip to the next iteration of the loop
                 continue
             # Extract text from the item
             text = item["text"]
@@ -373,8 +483,6 @@ def parse_pdf(pdf_path: str) -> Dict[str, Any]:
                     current_question["question"].append({"type": "text", "data": text})
             # Increment index
             idx += 1
-    all_tables = extract_all_tables(PDF_PATH)
-    # print("Extracted tables from PDF:", all_tables)
     # Iterate through all sections
     for section in result["sections"]:
         # Iterate through all questions in section
@@ -404,7 +512,7 @@ def merge_lines(result: Dict[str, Any], line_length_threshold: int) -> Dict[str,
                 # Get the current item
                 current_item = question["question"][i]
                 # Check if the item is an image
-                if current_item["type"] == "image":
+                if current_item["type"] == "image" or current_item["type"] == "table":
                     # Add image item as-is to merged list
                     merged_question.append(current_item)
                     # Increment index
