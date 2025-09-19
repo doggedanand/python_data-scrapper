@@ -2,11 +2,16 @@
 
 
 PDF Worker
-
-A simple Python tool to extract text, images, and tables from PDF files.
+A simple Python tool to extract structured data from PDF files.
 
 ✨ Features
 
-Extracts all text from PDFs (page by page).
+Extracts clean text content (questions, options, answers) from PDFs
 
-Extracts all images and saves them into a folder
+Accurately extracts tables and avoids duplicating table text
+
+Detects and includes images with proper positioning
+
+Automatically organizes content into sections and questions
+
+Saves output as structured JSON for easy processing
