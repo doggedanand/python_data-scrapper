@@ -1,0 +1,5554 @@
+{
+  "pages": [
+    {
+      "page_number": 1,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -4.9999999873762135e-06,
+            "x1": 596.249568,
+            "y1": 16021.284342999998
+          },
+          "rows": [
+            [
+              ""
+            ],
+            [
+              ""
+            ],
+            [
+              "Combined Graduate Level Examination 2024 Tier I\nExam Date 12/09/2024\nExam Time 9:00 AM - 10:00 AM\nSubject Combined Graduate Level Examination Tier I\nSection : General Intelligence and Reasoning\nQ.1 Three statements are given, followed by three conclusions numbered I, II and III. Assuming the statements to be true, even if\nthey seem to be at variance with commonly known facts, decide which of the conclusions logically follow(s) from the\nstatements.\nStatements:\nAll pages are diaries.\nSome diaries are books.\nAll books are notebooks.\nConclusions:\nI. No page is a notebook.\nII. All pages are notebooks.\nIII. All diaries being notebooks is a possibility.\nAns 1. Both conclusion I and II follow\n2. Only conclusions I and III follow\n3. Only conclusion III follows\n4. Only conclusion II follows\nQ.2 The position of how many letters will remain unchanged if all the letters in the word BINDER are arranged in English\nalphabetical order?\nAns 1. None\n2. One\n3. Two\n4. Three\nQ.3 In a certain code language,\n‘A + B’ means ‘A is the mother of B’;\n‘A − B’ means ‘A is the brother of B’;\n‘A × B’ means ‘A is the wife of B’ and\n‘A ÷ B’ means ‘A is the father of B’.\nBased on the above, how is 4 related to 2 if ‘4 + 3 ÷ 2 ÷ 1 − 5’?\nAns 1. Father’s father\n2. Father’s mother\n3. Mother’s father\n4. Mother’s mother"
+            ],
+            [
+              ""
+            ]
+          ]
+        },
+        {
+          "table_index": 1,
+          "bbox": {
+            "x0": 17.608919703703705,
+            "y0": 112.52748699999995,
+            "x1": 577.485965037037,
+            "y1": 178.45892961538462
+          },
+          "rows": [
+            [
+              "",
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Combined Graduate Level Examination 2024 Tier I",
+              null
+            ],
+            [
+              "Exam Date",
+              "12/09/2024",
+              null,
+              null
+            ],
+            [
+              "Exam Time",
+              "9:00 AM - 10:00 AM",
+              null,
+              null
+            ],
+            [
+              "Subject",
+              "Combined Graduate Level Examination Tier I",
+              null,
+              null
+            ]
+          ]
+        },
+        {
+          "table_index": 2,
+          "bbox": {
+            "x0": 17.608919703703705,
+            "y0": 205.32613300000003,
+            "x1": 577.485965037037,
+            "y1": 843.225487
+          },
+          "rows": [
+            [
+              "Section : General Intelligence and Reasoning",
+              null
+            ],
+            [
+              "Q.1",
+              "Three statements are given, followed by three conclusions numbered I, II and III. Assuming the statements to be true, even if\nthey seem to be at variance with commonly known facts, decide which of the conclusions logically follow(s) from the\nstatements.\nStatements:\nAll pages are diaries.\nSome diaries are books.\nAll books are notebooks.\nConclusions:\nI. No page is a notebook.\nII. All pages are notebooks.\nIII. All diaries being notebooks is a possibility."
+            ],
+            [
+              "Ans",
+              "1. Both conclusion I and II follow"
+            ],
+            [
+              "",
+              "2. Only conclusions I and III follow"
+            ],
+            [
+              "",
+              "3. Only conclusion III follows"
+            ],
+            [
+              "4. Only conclusion II follows",
+              null
+            ],
+            [
+              "Q.2 The position of how many letters will remain unchanged if all the letters in the word BINDER are arranged in English\nalphabetical order?",
+              null
+            ],
+            [
+              "Ans",
+              "1. None"
+            ],
+            [
+              "",
+              "2. One"
+            ],
+            [
+              "",
+              "3. Two"
+            ],
+            [
+              "4. Three",
+              null
+            ],
+            [
+              "Q.3 In a certain code language,\n‘A + B’ means ‘A is the mother of B’;\n‘A − B’ means ‘A is the brother of B’;\n‘A × B’ means ‘A is the wife of B’ and\n‘A ÷ B’ means ‘A is the father of B’.\nBased on the above, how is 4 related to 2 if ‘4 + 3 ÷ 2 ÷ 1 − 5’?",
+              null
+            ],
+            [
+              "Ans",
+              "1. Father’s father"
+            ],
+            [
+              "",
+              "2. Father’s mother"
+            ],
+            [
+              "",
+              "3. Mother’s father"
+            ],
+            [
+              "",
+              "4. Mother’s mother"
+            ],
+            [
+              "",
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 2,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -843.22609796,
+            "x1": 596.249568,
+            "y1": 15178.05825004
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.4",
+              "Identify the figure given in the options which when put in place of ‘?’ will logically complete the series.",
+              null,
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.5 ‘WISK’ is related to ‘DRHP’ in a certain way based on the English alphabetical order. In the same way, ‘LENT’ is related to\n‘OVMG’. To which of the following is ‘BANG’ related, following the same logic?",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. ZYLU",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. ZYNS",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. YZNU",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. YZMT",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.6 Two sets of numbers are given below. In each set of numbers, certain mathematical operation(s) on the first number\nresult(s) in the second number. Similarly, certain mathematical operation(s) on the second number result(s) in the third\nnumber and so on. Which of the given options follows the same set of operations as in the given sets?\n(NOTE: Operations should be performed on the whole numbers, without breaking down the numbers into their constituent\ndigits. E.g. 13 – Operations on 13 such as adding/subtracting/multiplying to 13 can be performed. Breaking down 13 into 1\nand 3 and then performing mathematical operations on 1 and 3 is not allowed.)\n18 – 36 – 72 – 107; 15 – 30 – 60– 95",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 22 – 44 – 88 – 123",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 25 – 50 – 100 – 125",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 11 – 22 – 66 – 101",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 30 – 60 – 90 – 115",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.7 Select the number from the given options to complete the series.\n25, 30, 40, 55, 75, ___",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 105",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 85",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 80",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 100",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 3,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -1686.452069,
+            "x1": 596.249568,
+            "y1": 14334.832278999998
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.8",
+              "The position(s) of how many letters will remain unchanged if all the letters in the word ‘ENTOMB’ are arranged in English\nalphabetical order?",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. None",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Two",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. One",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Three",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.9 Six words Eat, Cry, Play, Sleep, Run and Bath are written on different faces of a dice. Three positions of this dice are shown\nin the figure. Find the word on the face opposite to Eat.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Play",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Cry",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Sleep",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Run",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.10 Two different positions of the same dice with faces T, O, B, L, Y and V are shown below. Select the letter that will be on the\nface opposite to the one having L.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Y",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. B",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. V",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. O",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.11 Select the word-pair that best represents a similar relationship to the one expressed in the pair of words given below.\n(The words must be considered as meaningful English words and must NOT be related to each other based on the number\nof letters/number of consonants/vowels in the word)\nVirus : Parasite",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Fungus : Jasmine",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Amaltas : Tree",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Fenugreek : Micro organism",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Algae : Flower",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.12 Select the set in which the numbers are related in the same way as are the numbers of the given sets.\n(213, 157), (185, 129)\n(NOTE : Operations should be performed on the whole numbers, without breaking down the numbers into its constituent\ndigits. E.g., 13 – Operations on 13 such as adding /deleting /multiplying etc. to 13 can be performed. Breaking down 13 into 1\nand 3 and then performing mathematical operations on 1 and 3 is not allowed)",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. (171, 123)",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. (189, 141)",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. (164, 108)",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. (192, 152)",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 4,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -2529.6781622,
+            "x1": 596.249568,
+            "y1": 13491.606185799998
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.13",
+              "Three of the following four options are alike in a certain way and thus form a group. Which is the one that does NOT belong\nto that group?\n(NOTE: Operations should be performed on the whole numbers, without breaking down the numbers into its constituent\ndigits. E.g. 13 – Operations on 13 such as adding/subtracting/multiplying etc. to 13 can be performed. Breaking down 13 into\n1 and 3 and then performing mathematical operations on 1 and 3 is not allowed.)",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 540 – 188 – 128",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 72 – 284 – 266",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 81– 101– 92",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 90 – 22– 12",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.14 Which of the following terms will replace the question mark (?) in the given series?\nIMHP, MPJQ, QSLR, UVNS, ?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. YYPT",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. YYOT",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. YXPT",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. XYPT",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.15 In a certain code language, ‘FACED’ is written as ‘GZDDE’ and ‘VACAY’ is written as ‘WZDZZ’. How will ‘LABOR’ be written in\nthat language?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. MZCNS",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. MBCPS",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. MBDPS",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. MADMS",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.16 Which two signs should be interchanged to make the following equation correct?\n247 ÷ 13 + 16 × 3 − 148 = 119",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. + and ×",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. − and +",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. − and ×",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. ÷ and ×",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.17 How many triangles are there in the given figure?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 18",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 16",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 21",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 20",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 5,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -3372.9042551599996,
+            "x1": 596.249568,
+            "y1": 12648.380092840001
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.18",
+              "Select the correct mirror image of the given figure when the mirror is placed at MN.",
+              null,
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.19",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.20 In a certain code language, 'FIVE' is written as '12184410' and FOUR is written as '12304236'. How will 'THREE' be written in\nthat language?",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 4016361110",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 4016361310",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 4016361212",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 4016361010",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 6,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -4216.1303483599995,
+            "x1": 596.249568,
+            "y1": 11805.153999639999
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null
+            ],
+            [
+              "",
+              "Q.21 Select the correct mirror image of the given figure when the mirror is placed at MN as shown below.\nAns\n1.\n2.\n3.\n4.\nQ.22 In the following series, only one letter-cluster is incorrect. Select the incorrect letter-cluster.\nYCG IMQ SVZ CGK MQU\nAns 1. SVZ\n2. MQU\n3. CGK\n4. IMQ\nQ.23 Based on the English alphabetical order, three of the following four letter-clusters are alike in a certain way and thus form a\ngroup. Which is the one that DOES NOT belong to that group?\n(Note: The odd man out is not based on the number of consonants/vowels or their position in the letter-cluster.)\nAns 1. KJE\n2. JHD\n3. FDZ\n4. AYU\nQ.24 What will come in the place of the question mark (?) in the following equation, if ‘+’ and ‘−’ are interchanged and ‘×’ and ‘÷’\nare interchanged?\n342 × 18 + 79 − 45 ÷ 3 = ?\nAns 1. 65\n2. 75\n3. 85\n4. 55\nQ.25\nAns\n1.\n2.\n3.\n4.",
+              ""
+            ],
+            [
+              "",
+              null,
+              null
+            ]
+          ]
+        },
+        {
+          "table_index": 1,
+          "bbox": {
+            "x0": 17.486109564356436,
+            "y0": 2.298810340000023,
+            "x1": 577.6389113636363,
+            "y1": 835.9156236400003
+          },
+          "rows": [
+            [
+              "Q.21",
+              "Select the correct mirror image of the given figure when the mirror is placed at MN as shown below.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "Ans",
+              "1.",
+              "",
+              null,
+              ""
+            ],
+            [
+              "",
+              "2.",
+              "",
+              null,
+              ""
+            ],
+            [
+              "",
+              "3.",
+              "",
+              null,
+              ""
+            ],
+            [
+              "4.",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Q.22 In the following series, only one letter-cluster is incorrect. Select the incorrect letter-cluster.\nYCG IMQ SVZ CGK MQU",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Ans",
+              "1. SVZ",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "2. MQU",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "3. CGK",
+              null,
+              null,
+              null
+            ],
+            [
+              "4. IMQ",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Q.23 Based on the English alphabetical order, three of the following four letter-clusters are alike in a certain way and thus form a\ngroup. Which is the one that DOES NOT belong to that group?\n(Note: The odd man out is not based on the number of consonants/vowels or their position in the letter-cluster.)",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Ans",
+              "1. KJE",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "2. JHD",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "3. FDZ",
+              null,
+              null,
+              null
+            ],
+            [
+              "4. AYU",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Q.24 What will come in the place of the question mark (?) in the following equation, if ‘+’ and ‘−’ are interchanged and ‘×’ and ‘÷’\nare interchanged?\n342 × 18 + 79 − 45 ÷ 3 = ?",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Ans",
+              "1. 65",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "2. 75",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "3. 85",
+              null,
+              null,
+              null
+            ],
+            [
+              "4. 55",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Q.25",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "Ans",
+              "1.",
+              "",
+              "",
+              null
+            ],
+            [
+              "",
+              "2.",
+              "",
+              "",
+              null
+            ],
+            [
+              "",
+              "3.",
+              "",
+              "",
+              null
+            ],
+            [
+              "",
+              "4.",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 7,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -5059.356441319999,
+            "x1": 596.249568,
+            "y1": 10961.92790668
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Section : General Awareness",
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Q.1",
+              "Who among the following is the world renowned exponent of the bamboo flute?",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. MS Subbulakshmi",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Ravi Shankar",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Hariprasad Chaurasia",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Bismillah Khan",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.2 What is net investment?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Sum of all the investments in a country",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Gross investment + depreciation",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Gross capital investment - indirect taxes",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Gross investment - depreciation",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.3 India won the ICC Men Cricket World Cup for the first time in which of the following years?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 1996",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 1992",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 1987",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 1983",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.4",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. a-ii, b-i, c-iv, d-iii",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. a-iii, b-iv, c-i, d-ii",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. a-iv, b-iii, c-ii, d-i",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. a-i, b-ii, c-iii, d-iv",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.5 Kathakali, one of the classical dances of India, is predominantly performed in which of the following states of India?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Assam",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Manipur",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Uttar Pradesh",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Kerala",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.6 Identify the oldest iron and steel company of India from the following options.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Tata Iron & Steel Company(TISCO)",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Visvesvaraiya Iron & Steel Works",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Indian Iron & Steel Company (IISCO)",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Mysore Iron & Steel Works",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.7 The magnificent Kailasa temple at Ellora was built during the reign of which Rashtrakuta king?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Krishna I",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Indra III",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Govinda III",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. Amoghavarsha",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 8,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -5902.58253428,
+            "x1": 596.249568,
+            "y1": 10118.701813719998
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.8",
+              "In which state/UT is the Hemis festival celebrated?",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Punjab",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Sikkim",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Lakshadweep",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Ladakh",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.9 Which of the following is the largest artificial lake of Asia?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Naini Lake",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Bhopal Lake",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Dal Lake",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Chilika Lake",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.10 In 2002, Zakir Hussain became the youngest percussionist to be honoured with which award?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Sangeet Natak Akademi Award",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Grammy Award",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Padma Bhushan",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. National Heritage Fellowship",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.11 Microbes like Rhizobium, Nitrosomonas and Nitrobacter are used for:",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. nitrogen cycling",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. carbon cycling",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. water cycling",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. sulphur cycling",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.12 With reference to Sepoy Mutiny of 1857, on which of the following dates did the soldiers at Meerut start their journey to\nDelhi?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 10 May",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 19 April",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 2 June",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 29 March",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.13 Who among the following was selected as the Sherpa for India’s G20 hosted in 2022-23?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Piyush Goyal",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Ashwini Vaishnav",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Shaktikanta Das",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Amitabh Kant",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.14 Purvanchal Himalayas does NOT comprise of:",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Naga hills",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Pir Panjal range",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Manipur hills",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Mizo hills",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.15 In which year did India make its Olympic debut in hockey?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 1936",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 1932",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 1924",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 1928",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 9,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -6745.80813908,
+            "x1": 596.249568,
+            "y1": 9275.476208920001
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.16",
+              "A student, on his school assignment, is taking a session on how to make compost at home for using it at a park. Which\nfundamental duty is he performing?",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. To strive towards excellence in all spheres of individual and collective activity",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. To safeguard public property and to abjure violence",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. To develop the scientific temper, humanism and the spirit of inquiry",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. To protect and improve the natural environment",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.17 In August 2022, the Ministry of Social Justice and Empowerment launched the ________ scheme, with an aim to provide\ncomprehensive rehabilitation services to people engaged in begging in 75 municipalities.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. TWINKLE-75",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. BEAM-75",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. SMILE-75",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. RISE-75",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.18 Which is the National Mission for Financial Inclusion to ensure access to financial services, namely, a basic savings and\ndeposits accounts, remittance, credit, insurance, pension in an affordable manner?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Deendayal Antyodaya Yojana",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Deen Dayal Upadhyaya Grameen Kaushalya Yojana",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Swarnjayanti Gram Swarozgar Yojana",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Pradhan Mantri Jan Dhan Yojana",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.19 Which of the following plays was NOT written by Harshavardhana?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Vikramorvasiyam",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Ratnavali",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Nagananda",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Priyadarshika",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.20 The organisms that do not have a defined nucleus or organelles are classified in to _______ Kingdom.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Fungi",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Protista",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Monera",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Plantae",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.21 Which Article of the Constitution of India provides that ‘there shall be a Vice President of India’?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Article 61",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Article 63",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Article 65",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Article 62",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.22 A javelin thrown by an athlete is in ________ motion.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. oscillatory",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. periodic",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. rectilinear",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. curvilinear",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.23 The green revolution technology resulted in an increase in production of cereal production from 72.4 million tons in 1965-66\nto ________ million tons in 1978-79.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 150.8",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 165.9",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 131.9",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 141.2",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 10,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -7589.03520884,
+            "x1": 596.249568,
+            "y1": 8432.249139159998
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.24",
+              "Calculate the oxidation number of ‘S’ in H S O .\n2 2 7",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 3",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 7",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 6",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 2",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.25 Which of the following is NOT an amendment made to the Airport Economic Regulatory Authority (AERA) Amendment Act,\n2021?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. The government can call any airport a major airport just by notification.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. The government will club together profit-making and loss-making airports.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. The government can offer airports as a package in PPP mode to the prospective bidders.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. A major airport is one which has an annual traffic of minimum 35 lakh passengers.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Section : Quantitative Aptitude",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.1",
+              "Which digits should come in place * and $,respectively, if the number 72864*$ is divisible by both 8 and 5?",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 4 and 0",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 2 and 0",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 2 and 5",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 4 and 5",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.2",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 75%",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 90%",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 65%",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 80%",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.3 In a triangle PQR, S is a point on the side QR such that PS⊥QR, then which of the following options is true?",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. PS2 + PR2 = PQ2 + QR2",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. PR2 + QS2 = PQ2 + SR2",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. PQ2 + PR2 = QS2 + SR2",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. PS2 + QS2 = PQ2 + PR2",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 11,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -8432.26081364,
+            "x1": 596.249568,
+            "y1": 7589.02353436
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.4",
+              "Simplify\n15.5 − [3 − {7 − (5 − (14.5 − 13.5))}].",
+              "",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 15.5",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 13.5",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 12.5",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 14.5",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.5 The incomes of P, Q and R are in the ratio 10 : 12 : 9 and their expenditures are in the ratio 12 : 15 : 8. If Q saves 25% of his\nincome, then what is the ratio of the savings of P, Q and R?",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 15 : 14 : 21",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 14 : 15 : 21",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 21 : 15 : 14",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 21 : 14 : 15",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.6 The classification of 100 students based on the marks obtained by them in English and Mathematics in an examination is\ngiven in the table below. Study the table and answer the question that follows.\nMARKS OUT OF 50\nSUBJECT 40 and above 30 and above 20 and above 10 and above 0 and above\nENGLISH 10 31 80 92 100\nMATHEMATICS 3 23 65 81 100\nAGGREGATE 7 27 73 87 100\nIf at least 40% marks in Mathematics are required for pursuing higher studies in Mathematics, how many students will be\neligible to pursue higher studies in Mathematics?",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 55",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 65",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 70",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 50",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.7 In triangles ABC and DEF, AB = FD and ∠A = ∠D. The two triangles are congruent by SAS criterion if:",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. BC = DE",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. AC = EF",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. BC = EF",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. AC = DE",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.8 Two pipes, A and B, can fill a tank in 10 minutes and 20 minutes, respectively. The pipe C can empty the tank in 30 minutes.\nAll the three pipes are opened at a time in the beginning. However, pipe C is closed 2 minutes before the tank is filled. In\nwhat time, will the tank be full (in minutes)?",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 12",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 10",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 8",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 6",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.9 A payment of ₹120 is made with ₹10, ₹5 and ₹2 coins. A total of 25 coins are used. Which of the following is the number of\n₹10 coins used in the payment?",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 6",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 4",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 10",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 8",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        },
+        {
+          "table_index": 1,
+          "bbox": {
+            "x0": 57.30560247846889,
+            "y0": 242.95119136000096,
+            "x1": 421.61274599999996,
+            "y1": 327.32466799636484
+          },
+          "rows": [
+            [
+              "MARKS OUT OF 50",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "SUBJECT",
+              "40 and above",
+              "30 and above",
+              "20 and above",
+              "10 and above",
+              "0 and above"
+            ],
+            [
+              "ENGLISH",
+              "10",
+              "31",
+              "80",
+              "92",
+              "100"
+            ],
+            [
+              "MATHEMATICS",
+              "3",
+              "23",
+              "65",
+              "81",
+              "100"
+            ],
+            [
+              "AGGREGATE",
+              "7",
+              "27",
+              "73",
+              "87",
+              "100"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 12,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -9275.486418440001,
+            "x1": 596.249568,
+            "y1": 6745.797929559998
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.10",
+              "If 28.9 : x :: x : 36.1, and x > 0, then find the value of x.",
+              null,
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 38.3",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 32.3",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 30.4",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 35",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.11",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 698",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 1048",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 1074",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 1047",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.12 The height of a cylinder is 20 cm. The lateral surface area is 1760 cm2. Its volume is:",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.13 Raj divides ₹1,200 in the ratio 2 : 1 : 3 among three of his friends. The amount equal to the sum of three times the largest\nshare and two times the smallest share is:",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. ₹2,400",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. ₹1,800",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. ₹2,200",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. ₹2,000",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 13,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -10118.7129998,
+            "x1": 596.249568,
+            "y1": 5902.571348199999
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.14",
+              "A shopkeeper marked an article at ₹5,000. The shopkeeper allows successive discounts of 20%,15% and 10%. The selling\nprice of the article is:",
+              null,
+              null,
+              null,
+              null,
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. ₹2,750",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. ₹3,000",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. ₹2,800",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. ₹3,060",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.15 The average of 12 numbers is 48. The average of the first 5 numbers is 45 and the average of next 4 numbers is 52. If the\n10th number is 10 less than the 11th number and is 5 more than the 12th number, then the average of the 11th and 12th\nnumbers is:",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 50.5",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 46.5",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 47.5",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 48.5",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.16 Find the value of the following expression.",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              null,
+              null,
+              null,
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              null,
+              null,
+              null,
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.17\nThe value of is:",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 2",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 1",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 0",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. −1",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.18",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              null,
+              "",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              null,
+              "",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.19 M and N walk along a circular track. They start at 5:00 a.m. from the same point in the opposite directions. M and N walk at a\nspeed of 5 rounds per hour and 2 rounds per hour, respectively. How many times will they cross each other before 6.30 a.m.\non the same day?",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 10",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 3",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 5",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 7",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 14,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -10961.938604599998,
+            "x1": 596.249568,
+            "y1": 5059.345743400001
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.20",
+              "",
+              null,
+              null,
+              null,
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              null,
+              null,
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.21",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1.",
+              "",
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2.",
+              "",
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3.",
+              "",
+              "",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4.",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.22 Study the given table and answer the question that follows.\nThe given table shows the production of different types of refrigerators in a company.\nTypes of Refrigerators\nYears\nA B C\n2011 2018 1800 1932\n2012 2040 1890 1800\n2013 2035 1910 1890\n2014 2020 1940 1978\n2015 1997 1960 1900\nIn which of the given year(s) was the production of B type refrigerator closest to its average production over the given\nyears?",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Both 2012 and 2013",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Both 2013 and 2015",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 2014",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Only 2012",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.23 The measures of the three angles of a triangle are in the ratio 17 : 13 : 15. Find the positive difference between the greatest\nand the smallest of these three angles.",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 16°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 24°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 20°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. 12°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.24",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 45°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 90°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 30°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 75°",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        },
+        {
+          "table_index": 1,
+          "bbox": {
+            "x0": 57.281223322580644,
+            "y0": 396.03110740000244,
+            "x1": 301.68212952631575,
+            "y1": 508.49506044348027
+          },
+          "rows": [
+            [
+              "Years",
+              "Types of Refrigerators",
+              null,
+              null
+            ],
+            [
+              null,
+              "A",
+              "B",
+              "C"
+            ],
+            [
+              "2011",
+              "2018",
+              "1800",
+              "1932"
+            ],
+            [
+              "2012",
+              "2040",
+              "1890",
+              "1800"
+            ],
+            [
+              "2013",
+              "2035",
+              "1910",
+              "1890"
+            ],
+            [
+              "2014",
+              "2020",
+              "1940",
+              "1978"
+            ],
+            [
+              "2015",
+              "1997",
+              "1960",
+              "1900"
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 15,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -11805.16518596,
+            "x1": 596.249568,
+            "y1": 4216.119162039999
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.25",
+              "A certain sum of money becomes seven times itself when invested at a certain rate of simple interest, in 14 years. How\nmuch time (in years, rounded off to 2 decimal places) will it take to become 18 times itself at the same rate?",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. 27.33",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. 39.67",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. 42.78",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. 35.5",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Section : English Comprehension",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.1",
+              "Select the option that can be used as a one-word-substitute for the given group of words.\nA false idea or belief",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              null,
+              "A false idea or belief",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Reticence",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Atrophy",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Fallacy",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Entropy",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.2 Identity the most appropriate ANTONYM of the given word.\nSecure",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Succeed",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Save",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Attack",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Trundle",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.3 Select the most appropriate option to substitute the underlined segment in the given sentence.\nGourav was no good than a foolish person.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. no better",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. not good",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. no best",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. not best",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.4 Select the option that corrects the error in the given sentence.\nHe ran quick to catch the bus.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. quiet",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. rapid",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. insipid",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. quickly",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.5 Select the most appropriate synonym of the given word.\nAcquiesce",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Desist",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Cease",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Thwart",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Concur",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.6 Select the option that can be used as a one-word substitute for the given group of words.\nThat which cannot be conquered",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Invisible",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Indelible",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Ineffable",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. Invincible",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 16,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -12648.390790760002,
+            "x1": 596.249568,
+            "y1": 3372.893557239997
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.7",
+              "Select the most appropriate synonym for the underlined word in the given sentence.\nHis ambition in life is to become a happy and satisfied man.",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Apathy",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Satisfaction",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Eagerness",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Amend",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.8 Read the sentence carefully and select the most suitable idiom to fill in the blank.\nThe renowned publisher decided to withdraw a book from the market. No one was interested in the book as the arguments\npresented were ____________.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. high and mighty",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. out of the woods",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. beside the mark",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. under the rose",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.9 Select the most appropriate ANTONYM of the given word.\nReceive",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Admit",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Exile",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Reward",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Fund",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.10 Select the option that expresses the following sentence in passive voice.\nSonam does not like bananas.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Banana is not liked by Sonam.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Bananas have not been liked by Sonam.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Bananas are not liked by Sonam.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Bananas had not been liked by Sonam.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.11 Sentences of a paragraph are given below in jumbled order. Arrange the sentences in the correct order to form a meaningful\nand coherent paragraph.\nA. The genuine beliefs, though not unconsciously acquired by most children; and even if they depart from these beliefs in\nlater life\nB. Something of them remains deeply implanted, ready to emerge in a time of stress of crisis\nC. The importance of education in forming character and opinion is very great and well recognised by all\nD. Education is, as a rule, the strongest force on the side of what exists and again fundamental change",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. DCAB",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. DABC",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. CBAD",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. CABD",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.12 Select the option that can be used as a one-word substitute for the underlined group of words.\nIn Indian mythology, most of the Asuras wish to be never able to die.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Invincible",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Impervious",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Invisible",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Immortal",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.13 Select the option that expresses the given sentence in passive voice\nSomeone has taken my secret diary.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. My secret diary had been taken by someone.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. My secret diary has to be taken by someone.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. My secret diary has been taken by someone.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. My secret diary will have been taken by someone.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 17,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -13491.61639532,
+            "x1": 596.249568,
+            "y1": 2529.66795268
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "Q.14",
+              "Select the most appropriate synonym of the bracketed word in the following sentence to fill in the blank.\nDuring Covid times, many organisations made ________(sentimental) appeals to raise funds for migrant workers.",
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. mawkish",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. sincere",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. cynical",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. practical",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.15 Select the most appropriate meaning of the underlined word in the given sentence.\nHe is an atheist, although he respects everyone’s belief.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. One who believes in God",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. One who believes in nature",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. One who is extremist",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. One who does not believe in God",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.16 Select the most appropriate meaning of the underlined idiom in the following sentence.\nIn my new office, all employees were different, so I felt like a fish out of water.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Uncomfortable",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. Homeless",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. Frustrated",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Disappointed",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.17 Select the INCORRECTLY spelt word.\nAns 1. Embarrass\n2. Occurrence\n3. Exhilerate",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Accommodate",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.18 The following sentence has been divided into four segments. Identify the segment that contains an error.\nMrs. Sreelakshmi’s / musical intelligence / is superior than / Mrs. Suma’s.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. Mrs. Suma’s.",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. musical intelligence",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. is superior than",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. Mrs. Sreelakshmi’s",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.19 Select the option that will improve the underlined part of the given sentence.\nIf I was the queen, I would give a handsome sum towards education.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. will be the queen",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. were the queen",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. have been the queen",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. would be the queen",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.20 Select the INCORRECTLY spelt word.\nAns 1. Exceed\n2. Proceed\n3. Succeed",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. Preceed",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 18,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -14334.843953240003,
+            "x1": 596.249568,
+            "y1": 1686.4403947599967
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              "",
+              "",
+              "Comprehension:",
+              null,
+              "",
+              ""
+            ],
+            [
+              null,
+              null,
+              "",
+              "In the following passage, some words have been deleted. Read the passage carefully and select the most appropriate option to fill in\neach blank.\nThe beginning of the story is (1)______ in its presentation but (2)______ the style eases out and becomes haunting in its simplicity.\nThe author brings out the human elements in his story. This common element of sympathy and sacrifice is given a new (3)_____ by\nthe old artist who shows by his last desperate act that one can be a hero for one day if only one cares (4)______. O Henry’s treatment\nof his material is balanced and controlled, a fine (5)______ of humour and pathos.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "SubQuestion No : 21",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.21",
+              "Select the most appropriate option to fill in blank number 1.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. prone",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. delectable",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. quaint",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. habitual",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Comprehension:",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "In the following passage, some words have been deleted. Read the passage carefully and select the most appropriate option to fill in\neach blank.\nThe beginning of the story is (1)______ in its presentation but (2)______ the style eases out and becomes haunting in its simplicity.\nThe author brings out the human elements in his story. This common element of sympathy and sacrifice is given a new (3)_____ by\nthe old artist who shows by his last desperate act that one can be a hero for one day if only one cares (4)______. O Henry’s treatment\nof his material is balanced and controlled, a fine (5)______ of humour and pathos.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "SubQuestion No : 22",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.22",
+              "Select the most appropriate option to fill in blank number 2.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. hardly",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. recently",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. initially",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. gradually",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Comprehension:",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "In the following passage, some words have been deleted. Read the passage carefully and select the most appropriate option to fill in\neach blank.\nThe beginning of the story is (1)______ in its presentation but (2)______ the style eases out and becomes haunting in its simplicity.\nThe author brings out the human elements in his story. This common element of sympathy and sacrifice is given a new (3)_____ by\nthe old artist who shows by his last desperate act that one can be a hero for one day if only one cares (4)______. O Henry’s treatment\nof his material is balanced and controlled, a fine (5)______ of humour and pathos.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "SubQuestion No : 23",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.23",
+              "Select the most appropriate option to fill in blank number 3.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. supervision",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. condition",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. dimension",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "4. infection",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Comprehension:",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "In the following passage, some words have been deleted. Read the passage carefully and select the most appropriate option to fill in\neach blank.\nThe beginning of the story is (1)______ in its presentation but (2)______ the style eases out and becomes haunting in its simplicity.\nThe author brings out the human elements in his story. This common element of sympathy and sacrifice is given a new (3)_____ by\nthe old artist who shows by his last desperate act that one can be a hero for one day if only one cares (4)______. O Henry’s treatment\nof his material is balanced and controlled, a fine (5)______ of humour and pathos.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "SubQuestion No : 24",
+              "",
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Q.24",
+              "Select the most appropriate option to fill in blank number 4.",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "Ans",
+              "1. through",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "2. though",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "3. tough",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              "4. enough",
+              null,
+              null,
+              null
+            ],
+            [
+              null,
+              null,
+              "",
+              null,
+              null,
+              null,
+              null
+            ],
+            [
+              "",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "page_number": 19,
+      "tables": [
+        {
+          "table_index": 0,
+          "bbox": {
+            "x0": 0.0,
+            "y0": -15178.06955804,
+            "x1": 596.249568,
+            "y1": 843.2147899599986
+          },
+          "rows": [
+            [
+              "",
+              null,
+              null
+            ],
+            [
+              "",
+              "Comprehension:\nIn the following passage, some words have been deleted. Read the passage carefully and select the most appropriate option to fill in\neach blank.\nThe beginning of the story is (1)______ in its presentation but (2)______ the style eases out and becomes haunting in its simplicity.\nThe author brings out the human elements in his story. This common element of sympathy and sacrifice is given a new (3)_____ by\nthe old artist who shows by his last desperate act that one can be a hero for one day if only one cares (4)______. O Henry’s treatment\nof his material is balanced and controlled, a fine (5)______ of humour and pathos.\nSubQuestion No : 25\nQ.25 Select the most appropriate option to fill in blank number 5.\nAns 1. legend\n2. ascend\n3. blend\n4. amend",
+              ""
+            ],
+            [
+              "",
+              null,
+              null
+            ]
+          ]
+        },
+        {
+          "table_index": 1,
+          "bbox": {
+            "x0": 17.47032490909091,
+            "y0": 2.181391959999511,
+            "x1": 577.9299252857143,
+            "y1": 203.57300226769198
+          },
+          "rows": [
+            [
+              "",
+              "Comprehension:",
+              null
+            ],
+            [
+              "",
+              "In the following passage, some words have been deleted. Read the passage carefully and select the most appropriate option to fill in\neach blank.\nThe beginning of the story is (1)______ in its presentation but (2)______ the style eases out and becomes haunting in its simplicity.\nThe author brings out the human elements in his story. This common element of sympathy and sacrifice is given a new (3)_____ by\nthe old artist who shows by his last desperate act that one can be a hero for one day if only one cares (4)______. O Henry’s treatment\nof his material is balanced and controlled, a fine (5)______ of humour and pathos.",
+              null
+            ],
+            [
+              "",
+              "",
+              null
+            ],
+            [
+              "",
+              "SubQuestion No : 25",
+              ""
+            ],
+            [
+              "Q.25",
+              "Select the most appropriate option to fill in blank number 5.",
+              null
+            ],
+            [
+              "Ans",
+              "1. legend",
+              null
+            ],
+            [
+              "",
+              "2. ascend",
+              null
+            ],
+            [
+              "",
+              "3. blend",
+              null
+            ],
+            [
+              "",
+              "4. amend",
+              null
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}
