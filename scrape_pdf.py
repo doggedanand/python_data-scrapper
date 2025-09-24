@@ -12,7 +12,7 @@ import re
 from typing import Any, Dict, List, Tuple, Optional
 import os
 # Input PDF file path
-PDF_PATH = "SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
+PDF_PATH = "./pdfs/SSC-CGL-Tier-1-Question-Paper-9-September-2024-Shift-1.pdf"
 # PDF_PATH = "SSC-CGL-24-September-2024-Shift-1.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
@@ -74,12 +74,26 @@ def is_green(rgb: Tuple[int, int, int]) -> bool:
     r, g, b = rgb
     # Green must be dominant and >150
     return (g > 150) and (g >= r + 30) and (g >= b + 30)
+# Define function to check if two bounding boxes overlap with a given tolerance
+def bbox_overlaps(b1, b2, tol=0.5) -> bool:
+    # Unpack first bounding box coordinates
+    x0, y0, x1, y1 = b1
+    # Unpack second bounding box coordinates
+    X0, Y0, X1, Y1 = b2
+    # Return True if bboxes overlap within tolerance, False otherwise
+    return not (x1 < X0 - tol or x0 > X1 + tol or y1 < Y0 - tol or y0 > Y1 + tol)
 # Collect text and images from a PDF page
 def collect_page_items(page) -> List[Dict[str, Any]]:
     # Store collected items
     items: List[Dict[str, Any]] = []
     # Extract page content as dict
     d = page.get_text("dict")
+    # Get current page number (1-based)
+    page_num = page.number + 1
+    # Extract tables on this page
+    tables_for_page = extract_all_tables(PDF_PATH, page_num).get(page_num, [])
+    # Get bounding boxes of all tables on the page
+    table_bboxes = [tbl["bbox"] for tbl in tables_for_page]
     # Loop through all blocks
     for block in d.get("blocks", []):
         # Skip non-text blocks
@@ -101,6 +115,9 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                     continue
                 # Extract bounding box coordinates, default to (0, 0, 0, 0) if not found
                 bbox = span.get("bbox", (0, 0, 0, 0))
+                # skip if span falls inside/overlaps a table
+                if any(bbox_overlaps(bbox, tb) for tb in table_bboxes):
+                    continue
                 # Extract raw color value, default to None if not found
                 color_raw = span.get("color", None)
                 # Parse color to RGB tuple, default to black (0, 0, 0) if no color
@@ -198,7 +215,8 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
             }
         )
     # Extract only this page's tables
-    tables_for_page = extract_all_tables(PDF_PATH, page.number + 1).get(page.number + 1, [])
+    # tables_for_page = extract_all_tables(PDF_PATH, page.number + 1).get(page.number + 1, [])
+    # print('tables for page', tables_for_page)
     # Check if tables were found on the page
     if tables_for_page:
         # Extract bounding boxes for all tables on the page
