@@ -214,9 +214,6 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 "is_small": (w <= ICON_MAX_WH and h <= ICON_MAX_WH),
             }
         )
-    # Extract only this page's tables
-    # tables_for_page = extract_all_tables(PDF_PATH, page.number + 1).get(page.number + 1, [])
-    # print('tables for page', tables_for_page)
     # Check if tables were found on the page
     if tables_for_page:
         # Extract bounding boxes for all tables on the page
