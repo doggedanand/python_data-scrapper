@@ -46,16 +46,14 @@ OPT_MARK = DEFAULT_OPT_MARK
 HEADER_FOOTER_PATTERNS = DEFAULT_HEADER_FOOTER_PATTERNS
 ICON_MAX_WH = DEFAULT_ICON_MAX_WH
 MERGE_LINE_LENGTH_THRESHOLD = DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
-
+# Initialize settings from provided config or defaults
 def initialize_settings(settings: Dict[str, Any] = None):
     print('initializing settings')
     """Initialize global settings from provided settings or defaults."""
     global Q_START, SECTION_FULL, SECTION_PREFIX, ANS_PATTERN, OPT_MARK
     global HEADER_FOOTER_PATTERNS, ICON_MAX_WH, MERGE_LINE_LENGTH_THRESHOLD
-    
     parsing_config = settings.get("attributes", {}).get("parsingConfig", {}) if settings else {}
     print('parsing=============config', parsing_config)
-    
     # Helper function to safely compile regex patterns
     def compile_regex(pattern, default):
         if isinstance(pattern, str) and pattern.strip():
@@ -65,22 +63,18 @@ def initialize_settings(settings: Dict[str, Any] = None):
                 print(f"Invalid regex pattern {pattern}: {e}, using default")
                 return default
         return default
-
     # Set regex patterns, using settings if valid, else defaults
     Q_START = compile_regex(parsing_config.get("question_start_pattern"), DEFAULT_Q_START)
     SECTION_FULL = compile_regex(parsing_config.get("section_pattern"), DEFAULT_SECTION_FULL)
     SECTION_PREFIX = compile_regex(parsing_config.get("section_pattern"), DEFAULT_SECTION_PREFIX)
     ANS_PATTERN = compile_regex(parsing_config.get("answer_pattern"), DEFAULT_ANS)
     OPT_MARK = compile_regex(parsing_config.get("option_pattern"), DEFAULT_OPT_MARK)
-    
     # Set header_footer_patterns, ensuring it's a list of compiled regexes
     header_patterns = parsing_config.get("header_footer_patterns", [])
     HEADER_FOOTER_PATTERNS = [re.compile(p, re.IGNORECASE) for p in header_patterns if isinstance(p, str)] or DEFAULT_HEADER_FOOTER_PATTERNS
-    
     # Set numeric settings with defaults
     ICON_MAX_WH = parsing_config.get("icon_max_wh", DEFAULT_ICON_MAX_WH) if isinstance(parsing_config.get("icon_max_wh"), (int, float)) else DEFAULT_ICON_MAX_WH
     MERGE_LINE_LENGTH_THRESHOLD = parsing_config.get("merge_line_length_threshold", DEFAULT_MERGE_LINE_LENGTH_THRESHOLD) if isinstance(parsing_config.get("merge_line_length_threshold"), (int, float)) else DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
-    
     print(f"Initialized settings: Q_START={Q_START.pattern}, ICON_MAX_WH={ICON_MAX_WH}, MERGE_LINE_LENGTH_THRESHOLD={MERGE_LINE_LENGTH_THRESHOLD}")
 # Check if text matches header/footer patterns
 def is_header_footer(text: str) -> bool:
@@ -387,7 +381,6 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     for page in doc:
         # Collect text and image items from the page
         items = collect_page_items(page)
-        print('items collected',page.number)
         # Check if page number is 5 for debugging
         if page.number == 10:
             # Open file to save page items as JSON
@@ -623,17 +616,7 @@ def merge_lines(result: Dict[str, Any], line_length_threshold: int) -> Dict[str,
             question["question"] = merged_question
     # Return the modified result
     return result
-# # Standard Python entry point check
-# if __name__ == "__main__":
-#     # Call parse_pdf function with the given PDF path
-#     parsed = parse_pdf(PDF_PATH)
-#     # Open the output JSON file in write mode with UTF-8 encoding
-#     with open(OUTPUT_JSON, "w", encoding="utf-8") as fh:
-#         # Dump the parsed result dictionary into the JSON file
-#         json.dump(parsed, fh, ensure_ascii=False, indent=2)
-#     # Print confirmation message with file name
-#     print("saved", OUTPUT_JSON)
-
+# Main function to handle uploaded PDF and process it
 def handle_uploaded_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     print('setting', settings)
     # print(f"Handling uploaded PDF: {pdf_file_path} with settings: {settings}")
