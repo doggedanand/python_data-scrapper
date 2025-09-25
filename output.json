@@ -2297,26 +2297,6 @@
               "data": "The classification of 100 students based on the marks obtained by them in English and Mathematics in an examination is given in the table below. Study the table and answer the question that follows."
             },
             {
-              "type": "text",
-              "data": "MARKS OUT OF 50"
-            },
-            {
-              "type": "text",
-              "data": "SUBJECT"
-            },
-            {
-              "type": "text",
-              "data": "40 and above"
-            },
-            {
-              "type": "text",
-              "data": "30 and above 20 and above 10 and above"
-            },
-            {
-              "type": "text",
-              "data": "0 and above"
-            },
-            {
               "type": "table",
               "data": [
                 [
@@ -2362,74 +2342,6 @@
                   ]
                 ]
               ]
-            },
-            {
-              "type": "text",
-              "data": "ENGLISH"
-            },
-            {
-              "type": "text",
-              "data": "10"
-            },
-            {
-              "type": "text",
-              "data": "31"
-            },
-            {
-              "type": "text",
-              "data": "80"
-            },
-            {
-              "type": "text",
-              "data": "92"
-            },
-            {
-              "type": "text",
-              "data": "100"
-            },
-            {
-              "type": "text",
-              "data": "MATHEMATICS 3"
-            },
-            {
-              "type": "text",
-              "data": "23"
-            },
-            {
-              "type": "text",
-              "data": "65"
-            },
-            {
-              "type": "text",
-              "data": "81"
-            },
-            {
-              "type": "text",
-              "data": "100"
-            },
-            {
-              "type": "text",
-              "data": "AGGREGATE"
-            },
-            {
-              "type": "text",
-              "data": "7"
-            },
-            {
-              "type": "text",
-              "data": "27"
-            },
-            {
-              "type": "text",
-              "data": "73"
-            },
-            {
-              "type": "text",
-              "data": "87"
-            },
-            {
-              "type": "text",
-              "data": "100"
             },
             {
               "type": "text",
@@ -3156,42 +3068,6 @@
               "data": "The given table shows the production of different types of refrigerators in a company."
             },
             {
-              "type": "text",
-              "data": "Types of Refrigerators"
-            },
-            {
-              "type": "text",
-              "data": "Years"
-            },
-            {
-              "type": "text",
-              "data": "A"
-            },
-            {
-              "type": "text",
-              "data": "B"
-            },
-            {
-              "type": "text",
-              "data": "C"
-            },
-            {
-              "type": "text",
-              "data": "2011"
-            },
-            {
-              "type": "text",
-              "data": "2018"
-            },
-            {
-              "type": "text",
-              "data": "1800"
-            },
-            {
-              "type": "text",
-              "data": "1932"
-            },
-            {
               "type": "table",
               "data": [
                 [
@@ -3239,70 +3115,6 @@
                   ]
                 ]
               ]
-            },
-            {
-              "type": "text",
-              "data": "2012"
-            },
-            {
-              "type": "text",
-              "data": "2040"
-            },
-            {
-              "type": "text",
-              "data": "1890"
-            },
-            {
-              "type": "text",
-              "data": "1800"
-            },
-            {
-              "type": "text",
-              "data": "2013"
-            },
-            {
-              "type": "text",
-              "data": "2035"
-            },
-            {
-              "type": "text",
-              "data": "1910"
-            },
-            {
-              "type": "text",
-              "data": "1890"
-            },
-            {
-              "type": "text",
-              "data": "2014"
-            },
-            {
-              "type": "text",
-              "data": "2020"
-            },
-            {
-              "type": "text",
-              "data": "1940"
-            },
-            {
-              "type": "text",
-              "data": "1978"
-            },
-            {
-              "type": "text",
-              "data": "2015"
-            },
-            {
-              "type": "text",
-              "data": "1997"
-            },
-            {
-              "type": "text",
-              "data": "1960"
-            },
-            {
-              "type": "text",
-              "data": "1900"
             },
             {
               "type": "text",
