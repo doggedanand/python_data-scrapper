@@ -1,5 +1,6 @@
 # PDF processing
 from pydoc import text
+from venv import logger
 import fitz
 import pdfplumber
 # Image encoding
@@ -38,44 +39,71 @@ DEFAULT_HEADER_FOOTER_PATTERNS = [
 # Default line length threshold for merging lines (characters)
 DEFAULT_MERGE_LINE_LENGTH_THRESHOLD = 111
 # Global variables for settings
-Q_START = DEFAULT_Q_START
-SECTION_FULL = DEFAULT_SECTION_FULL
-SECTION_PREFIX = DEFAULT_SECTION_PREFIX
+Q_START = [DEFAULT_Q_START]
+SECTION_FULL = [DEFAULT_SECTION_FULL]
+SECTION_PREFIX = [DEFAULT_SECTION_PREFIX]
 ANS_PATTERN = DEFAULT_ANS
 OPT_MARK = DEFAULT_OPT_MARK
 HEADER_FOOTER_PATTERNS = DEFAULT_HEADER_FOOTER_PATTERNS
 ICON_MAX_WH = DEFAULT_ICON_MAX_WH
 MERGE_LINE_LENGTH_THRESHOLD = DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
+HAS_SECTIONS = False  
+QUESTION_FORMAT = 'mcq'  
+QUESTION_TYPES = set(['text'])  
 # Initialize settings from provided config or defaults
 def initialize_settings(settings: Dict[str, Any] = None):
-    print('initializing settings')
-    """Initialize global settings from provided settings or defaults."""
     global Q_START, SECTION_FULL, SECTION_PREFIX, ANS_PATTERN, OPT_MARK
-    global HEADER_FOOTER_PATTERNS, ICON_MAX_WH, MERGE_LINE_LENGTH_THRESHOLD
+    global HEADER_FOOTER_PATTERNS, ICON_MAX_WH, MERGE_LINE_LENGTH_THRESHOLD, HAS_SECTIONS, QUESTION_FORMAT,QUESTION_TYPES
     parsing_config = settings.get("attributes", {}).get("parsingConfig", {}) if settings else {}
-    print('parsing=============config', parsing_config)
     # Helper function to safely compile regex patterns
     def compile_regex(pattern, default):
         if isinstance(pattern, str) and pattern.strip():
             try:
                 return re.compile(pattern, re.IGNORECASE)
             except re.error as e:
-                print(f"Invalid regex pattern {pattern}: {e}, using default")
                 return default
         return default
-    # Set regex patterns, using settings if valid, else defaults
-    Q_START = compile_regex(parsing_config.get("question_start_pattern"), DEFAULT_Q_START)
-    SECTION_FULL = compile_regex(parsing_config.get("section_pattern"), DEFAULT_SECTION_FULL)
-    SECTION_PREFIX = compile_regex(parsing_config.get("section_pattern"), DEFAULT_SECTION_PREFIX)
+    # Set question start patterns (list)
+    question_patterns = parsing_config.get("question_start_pattern", [])
+    if isinstance(question_patterns, str):  # Backward compatibility
+        question_patterns = [question_patterns]
+    Q_START = [compile_regex(p, DEFAULT_Q_START) for p in question_patterns if isinstance(p, str)] or [DEFAULT_Q_START]
+    # Set section patterns (list)
+    section_patterns = parsing_config.get("section_pattern", [])
+    if isinstance(section_patterns, str):  # Backward compatibility
+        section_patterns = [section_patterns]
+    SECTION_FULL = [compile_regex(p, DEFAULT_SECTION_FULL) for p in section_patterns if isinstance(p, str)] or [DEFAULT_SECTION_FULL]
+    SECTION_PREFIX = [compile_regex(p, DEFAULT_SECTION_PREFIX) for p in section_patterns if isinstance(p, str)] or [DEFAULT_SECTION_PREFIX]
+    # Set other regex patterns
     ANS_PATTERN = compile_regex(parsing_config.get("answer_pattern"), DEFAULT_ANS)
     OPT_MARK = compile_regex(parsing_config.get("option_pattern"), DEFAULT_OPT_MARK)
-    # Set header_footer_patterns, ensuring it's a list of compiled regexes
+    # Set header_footer_patterns
     header_patterns = parsing_config.get("header_footer_patterns", [])
     HEADER_FOOTER_PATTERNS = [re.compile(p, re.IGNORECASE) for p in header_patterns if isinstance(p, str)] or DEFAULT_HEADER_FOOTER_PATTERNS
-    # Set numeric settings with defaults
-    ICON_MAX_WH = parsing_config.get("icon_max_wh", DEFAULT_ICON_MAX_WH) if isinstance(parsing_config.get("icon_max_wh"), (int, float)) else DEFAULT_ICON_MAX_WH
-    MERGE_LINE_LENGTH_THRESHOLD = parsing_config.get("merge_line_length_threshold", DEFAULT_MERGE_LINE_LENGTH_THRESHOLD) if isinstance(parsing_config.get("merge_line_length_threshold"), (int, float)) else DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
-    print(f"Initialized settings: Q_START={Q_START.pattern}, ICON_MAX_WH={ICON_MAX_WH}, MERGE_LINE_LENGTH_THRESHOLD={MERGE_LINE_LENGTH_THRESHOLD}")
+    # Set numeric settings
+    ICON_MAX_WH =  int(parsing_config.get("icon_max_wh", DEFAULT_ICON_MAX_WH)) if isinstance(parsing_config.get("icon_max_wh"), (int, float, str)) and str(parsing_config.get("icon_max_wh")).isdigit() else DEFAULT_ICON_MAX_WH
+    MERGE_LINE_LENGTH_THRESHOLD = int(parsing_config.get("merge_line_length_threshold", DEFAULT_MERGE_LINE_LENGTH_THRESHOLD)) if isinstance(parsing_config.get("merge_line_length_threshold"), (int, float, str)) and str(parsing_config.get("merge_line_length_threshold")).isdigit() else DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
+    # Set HAS_SECTIONS from attributes.has_section, fallback to expectedOutputData
+    HAS_SECTIONS = settings.get("attributes", {}).get("has_section", False)
+    expected = settings.get("attributes", {}).get("expectedOutputData", {})
+    if not HAS_SECTIONS:
+        HAS_SECTIONS = 'sections' in expected  # Fallback for older records
+    # Infer QUESTION_TYPES and QUESTION_FORMAT
+    if HAS_SECTIONS:
+        sample_q = expected['sections'][0]['questions'][0] if expected.get('sections') and expected['sections'][0].get('questions') else {}
+    else:
+        sample_q = expected.get('questions', [{}])[0] if expected.get('questions') else {}
+    if sample_q:
+        QUESTION_TYPES = set(item['type'] for item in sample_q.get('question', []) if isinstance(item, dict) and 'type' in item) or set(['text'])
+        num_options = len(sample_q.get('options', []))
+        if num_options == 4:
+            QUESTION_FORMAT = 'mcq'
+        elif num_options == 2:
+            QUESTION_FORMAT = 'true_false'
+        elif num_options == 0:
+            QUESTION_FORMAT = 'descriptive'
+        else:
+            QUESTION_FORMAT = 'mcq'
 # Check if text matches header/footer patterns
 def is_header_footer(text: str) -> bool:
     # Return True if any pattern matches
@@ -123,6 +151,12 @@ def bbox_overlaps(b1, b2, tol=0.5) -> bool:
     X0, Y0, X1, Y1 = b2
     # Return True if bboxes overlap within tolerance, False otherwise
     return not (x1 < X0 - tol or x0 > X1 + tol or y1 < Y0 - tol or y0 > Y1 + tol)
+def match_question_start(text):
+    for pattern in Q_START:
+        match = pattern.match(text)
+        if match:
+            return match
+    return None
 # Collect text and images from a PDF page
 def collect_page_items(page) -> List[Dict[str, Any]]:
     # Store collected items
@@ -370,19 +404,20 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     # Open the PDF document using fitz
     doc = fitz.open(pdf_path)
     # Initialize result dictionary with empty sections list
-    result = {"sections": []}
+    result = {"sections": []} if HAS_SECTIONS else {"questions": []}
     # Initialize variable to track current section
     current_section = None
     # Initialize variable to track current question
     current_question = None
     # Initialize flag to track if processing options
     in_options = False
+    num_options = 4 if QUESTION_FORMAT == 'mcq' else 2 if QUESTION_FORMAT == 'true_false' else 0
     # Iterate through each page in the PDF
     for page in doc:
         # Collect text and image items from the page
         items = collect_page_items(page)
         # Check if page number is 5 for debugging
-        if page.number == 10:
+        if page.number == 0:
             # Open file to save page items as JSON
             with open("pageitems.json", "w", encoding="utf-8") as f:
                 # Write items to JSON file with proper encoding
@@ -445,42 +480,9 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
                 idx = next_idx + 1
                 # Continue to next iteration
                 continue
-            # Check if text starts with "comprehension:"
-            if text.lower().startswith("comprehension:"):
-                # Create new question dictionary
-                current_question = {"question": [], "options": [], "correctOption": None}
-                # Check if current section exists
-                if not current_section:
-                    # Create default section if none exists
-                    current_section = {"title": "Uncategorized", "questions": []}
-                    # Append default section to result
-                    result["sections"].append(current_section)
-                # Append question to current section
-                current_section["questions"].append(current_question)
-                # Add comprehension text to question
-                current_question["question"].append({"type": "text", "data": "Comprehension:"})
-                # Reset options flag
-                in_options = False
-                # Increment index to next item
-                idx += 1
-                # Collect items until answer marker is found
-                while idx < len(items) and not ANS_PATTERN.match(items[idx]["text"]):
-                    # Get current comprehension item
-                    comp_item = items[idx]
-                    # Check if item is text
-                    if comp_item["type"] == "text":
-                        # Append text to question
-                        current_question["question"].append({"type": "text", "data": comp_item["text"]})
-                    # If item is image
-                    else:
-                        # Append image to question
-                        current_question["question"].append({"type": "image", "data": comp_item["data"]})
-                    # Increment index
-                    idx += 1
-                # Continue to next iteration
-                continue
             # Check if text matches question number pattern
-            if Q_START.match(text):
+            q_start = match_question_start(text)
+            if q_start:
                 # Create new question dictionary
                 current_question = {"question": [], "options": [], "correctOption": None}
                 # Check if current section exists
@@ -493,8 +495,27 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
                 current_section["questions"].append(current_question)
                 # Reset options flag
                 in_options = False
+                # Add the question start text to question content
+                current_question["question"].append({"type": "text", "data": text})
                 # Increment index
                 idx += 1
+                # Collect all items (text, images, tables) until answer pattern is found
+                while idx < len(items):
+                    next_item = items[idx]
+                    # Check if item is text and matches answer pattern
+                    if next_item["type"] == "text" and ANS_PATTERN.match(next_item["text"]):
+                        # Exit loop if answer pattern is found
+                        break 
+                    # Handle text item
+                    if next_item["type"] == "text":
+                        current_question["question"].append({"type": "text", "data": next_item["text"]})
+                    # Handle image item
+                    elif next_item["type"] == "image":
+                        current_question["question"].append({"type": "image", "data": next_item["data"]})
+                    # Handle table item
+                    elif next_item["type"] == "table":
+                        current_question["question"].append({"type": "table", "data": next_item["data"]})
+                    idx += 1
                 # Continue to next iteration
                 continue
             # Check if text matches answer marker
@@ -550,7 +571,8 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
                     # Remove temporary color field
                     piece.pop("_color", None)
     # Merge lines in questions based on length threshold
-    result = merge_lines(result, MERGE_LINE_LENGTH_THRESHOLD)
+    if MERGE_LINE_LENGTH_THRESHOLD is not None:
+        result = merge_lines(result, MERGE_LINE_LENGTH_THRESHOLD)
     # Return the parsed result
     return result
 # Define function to merge text lines in questions based on length threshold
@@ -618,13 +640,12 @@ def merge_lines(result: Dict[str, Any], line_length_threshold: int) -> Dict[str,
     return result
 # Main function to handle uploaded PDF and process it
 def handle_uploaded_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
-    print('setting', settings)
-    # print(f"Handling uploaded PDF: {pdf_file_path} with settings: {settings}")
     # Initialize global settings
     initialize_settings(settings)
+    global PDF_PATH
+    PDF_PATH = pdf_file_path
     # Call the processing function
     result = parse_pdf(pdf_file_path, settings)
-    print('pdf parsing completed')
     # Open the output JSON file in write mode with UTF-8 encoding
     with open(OUTPUT_JSON, "w", encoding="utf-8") as fh:
         # Dump the parsed result dictionary into the JSON file
