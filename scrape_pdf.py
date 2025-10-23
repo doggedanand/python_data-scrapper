@@ -22,15 +22,13 @@ DEFAULT_ICON_MAX_WH = 35
 # Pattern to detect question numbers (e.g., Q. 1)
 DEFAULT_Q_START = re.compile(r"^\s*Q\.\s*(\d+)", re.IGNORECASE)
 # Pattern to detect full section titles
-DEFAULT_SECTION_FULL = re.compile(r"^\s*Section\s*[:\.]\s*(.+)$", re.IGNORECASE)
-# Pattern to detect section prefix without title
-DEFAULT_SECTION_PREFIX = re.compile(r"^\s*Section\s*[:\.]?\s*$", re.IGNORECASE)
+DEFAULT_SECTION_PATTERN = re.compile(r"^\s*Section\s*[:\.]\s*(.+)$", re.IGNORECASE)
 # Pattern to detect answer lines
 DEFAULT_ANS = re.compile(r"^\s*Ans[\s\.:]*([1-9])?(.*)$", re.IGNORECASE)
 # Pattern to detect option markers (1., A), etc.)
 DEFAULT_OPT_MARK = re.compile(r"^\s*([1-4a-dA-D])[\.\)]\s*", re.IGNORECASE)
 # Patterns to identify and skip headers/footers
-DEFAULT_HEADER_FOOTER_PATTERNS = [
+DEFAULT_GLOBAL_IGNORE_PATTERNS = [
     re.compile(r"SSC", re.IGNORECASE),
     re.compile(r"Tier", re.IGNORECASE),
     re.compile(r"Shift", re.IGNORECASE),
@@ -40,20 +38,21 @@ DEFAULT_HEADER_FOOTER_PATTERNS = [
 DEFAULT_MERGE_LINE_LENGTH_THRESHOLD = 111
 # Global variables for settings
 Q_START = [DEFAULT_Q_START]
-SECTION_FULL = [DEFAULT_SECTION_FULL]
-SECTION_PREFIX = [DEFAULT_SECTION_PREFIX]
+SECTION_PATTERNS = [DEFAULT_SECTION_PATTERN]
 ANS_PATTERN = DEFAULT_ANS
 OPT_MARK = DEFAULT_OPT_MARK
-HEADER_FOOTER_PATTERNS = DEFAULT_HEADER_FOOTER_PATTERNS
+AFTER_OPTION_IGNORE_PATTERNS = []
+GLOBAL_IGNORE_PATTERNS = DEFAULT_GLOBAL_IGNORE_PATTERNS
 ICON_MAX_WH = DEFAULT_ICON_MAX_WH
+PAGE_WIDTH = 0
 MERGE_LINE_LENGTH_THRESHOLD = DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
 HAS_SECTIONS = False  
 QUESTION_FORMAT = 'mcq'  
 QUESTION_TYPES = set(['text'])  
 # Initialize settings from provided config or defaults
 def initialize_settings(settings: Dict[str, Any] = None):
-    global Q_START, SECTION_FULL, SECTION_PREFIX, ANS_PATTERN, OPT_MARK
-    global HEADER_FOOTER_PATTERNS, ICON_MAX_WH, MERGE_LINE_LENGTH_THRESHOLD, HAS_SECTIONS, QUESTION_FORMAT,QUESTION_TYPES
+    global Q_START, SECTION_PATTERNS, ANS_PATTERN, OPT_MARK, PAGE_WIDTH
+    global GLOBAL_IGNORE_PATTERNS, ICON_MAX_WH, MERGE_LINE_LENGTH_THRESHOLD, HAS_SECTIONS, QUESTION_FORMAT,QUESTION_TYPES
     parsing_config = settings.get("attributes", {}).get("parsingConfig", {}) if settings else {}
     # Helper function to safely compile regex patterns
     def compile_regex(pattern, default):
@@ -72,17 +71,21 @@ def initialize_settings(settings: Dict[str, Any] = None):
     section_patterns = parsing_config.get("section_pattern", [])
     if isinstance(section_patterns, str):  # Backward compatibility
         section_patterns = [section_patterns]
-    SECTION_FULL = [compile_regex(p, DEFAULT_SECTION_FULL) for p in section_patterns if isinstance(p, str)] or [DEFAULT_SECTION_FULL]
-    SECTION_PREFIX = [compile_regex(p, DEFAULT_SECTION_PREFIX) for p in section_patterns if isinstance(p, str)] or [DEFAULT_SECTION_PREFIX]
+    SECTION_PATTERNS = [compile_regex(p, DEFAULT_SECTION_PATTERN) for p in section_patterns if isinstance(p, str)] or [DEFAULT_SECTION_PATTERN]
     # Set other regex patterns
     ANS_PATTERN = compile_regex(parsing_config.get("answer_pattern"), DEFAULT_ANS)
     OPT_MARK = compile_regex(parsing_config.get("option_pattern"), DEFAULT_OPT_MARK)
-    # Set header_footer_patterns
-    header_patterns = parsing_config.get("header_footer_patterns", [])
-    HEADER_FOOTER_PATTERNS = [re.compile(p, re.IGNORECASE) for p in header_patterns if isinstance(p, str)] or DEFAULT_HEADER_FOOTER_PATTERNS
+    # Set after_option_ignore_patterns
+    after_option_patterns = parsing_config.get("after_option_ignore_pattern", [])
+    global AFTER_OPTION_IGNORE_PATTERNS
+    AFTER_OPTION_IGNORE_PATTERNS = [re.compile(p, re.IGNORECASE) for p in after_option_patterns if isinstance(p, str)]
+    # Set global_ignore_patterns
+    header_patterns = parsing_config.get("global_ignore_patterns", [])
+    GLOBAL_IGNORE_PATTERNS = [re.compile(p, re.IGNORECASE) for p in header_patterns if isinstance(p, str)] or DEFAULT_GLOBAL_IGNORE_PATTERNS
     # Set numeric settings
     ICON_MAX_WH =  int(parsing_config.get("icon_max_wh", DEFAULT_ICON_MAX_WH)) if isinstance(parsing_config.get("icon_max_wh"), (int, float, str)) and str(parsing_config.get("icon_max_wh")).isdigit() else DEFAULT_ICON_MAX_WH
     MERGE_LINE_LENGTH_THRESHOLD = int(parsing_config.get("merge_line_length_threshold", DEFAULT_MERGE_LINE_LENGTH_THRESHOLD)) if isinstance(parsing_config.get("merge_line_length_threshold"), (int, float, str)) and str(parsing_config.get("merge_line_length_threshold")).isdigit() else DEFAULT_MERGE_LINE_LENGTH_THRESHOLD
+    PAGE_WIDTH = float(parsing_config.get("pdf_page_wh", 0)) if isinstance(parsing_config.get("pdf_page_wh"), (int, float, str)) and str(parsing_config.get("pdf_page_wh")) else 0
     # Set HAS_SECTIONS from attributes.has_section, fallback to expectedOutputData
     HAS_SECTIONS = settings.get("attributes", {}).get("has_section", False)
     expected = settings.get("attributes", {}).get("expectedOutputData", {})
@@ -105,9 +108,9 @@ def initialize_settings(settings: Dict[str, Any] = None):
         else:
             QUESTION_FORMAT = 'mcq'
 # Check if text matches header/footer patterns
-def is_header_footer(text: str) -> bool:
+def is_ignored_text(text: str) -> bool:
     # Return True if any pattern matches
-    return any(p.search(text) for p in HEADER_FOOTER_PATTERNS)
+    return any(p.search(text) for p in GLOBAL_IGNORE_PATTERNS)
 # Encode image bytes to base64 string
 def to_base64(img_bytes: bytes) -> str:
     # Convert bytes to base64 and decode to string
@@ -159,6 +162,7 @@ def match_question_start(text):
     return None
 # Collect text and images from a PDF page
 def collect_page_items(page) -> List[Dict[str, Any]]:
+    # print('page width', PAGE_WIDTH)
     # Store collected items
     items: List[Dict[str, Any]] = []
     # Extract page content as dict
@@ -269,7 +273,7 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
         # Use the first rectangle for bounding box
         r = rects[0]
         # Skip small icons located near the page's left margin
-        if w < ICON_MAX_WH and h < ICON_MAX_WH and r.x0 < page_w * 0.125:
+        if w < ICON_MAX_WH and h < ICON_MAX_WH and r.x0 < page_w * PAGE_WIDTH:
             # Continue to next image
             continue
         # Append image item to the items list
@@ -278,7 +282,7 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 # Set item type to image
                 "type": "image",
                 # Convert image bytes to base64 string
-                "data": to_base64(img_bytes),
+                "data": 'to_base64(img_bytes)',
                 # Store bounding box coordinates
                 "bbox": (r.x0, r.y0, r.x1, r.y1),
                 # Store image width
@@ -467,7 +471,7 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
             # Extract color from the item, default to black
             color = item.get("color", (0, 0, 0))
             # Check if text starts with "section :"
-            if text.lower().startswith("section :"):
+            if any(p.search(text) for p in SECTION_PATTERNS):
                 # Calculate index of next item
                 next_idx = idx + 1
                 # Get section title from next item or use default
@@ -553,6 +557,12 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
             if current_question:
                 # Check if in options mode with existing options
                 if in_options and current_question["options"]:
+                    if any(p.search(text) for p in AFTER_OPTION_IGNORE_PATTERNS):
+                        # print('Skipping line due to AFTER_OPTION_IGNORE_PATTERNS:', text)
+                        idx += 1
+                        in_options = False
+                        current_question = None
+                        continue
                     # Append text to last option with color
                     current_question["options"][-1].append({"type": "text", "data": text, "_color": color})
                 # If not in options, append text to question
@@ -642,6 +652,7 @@ def merge_lines(result: Dict[str, Any], line_length_threshold: int) -> Dict[str,
 def handle_uploaded_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     # Initialize global settings
     initialize_settings(settings)
+    print('global ignore pattern', GLOBAL_IGNORE_PATTERNS)
     global PDF_PATH
     PDF_PATH = pdf_file_path
     # Call the processing function
@@ -654,3 +665,201 @@ def handle_uploaded_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[st
     print("saved", OUTPUT_JSON)
     # Return the result
     return result
+def handle_test_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
+    # Initialize global settings
+    initialize_settings(settings)
+    global PDF_PATH
+    PDF_PATH = pdf_file_path
+    doc = fitz.open(pdf_file_path)
+    num_pages = int(settings['attributes'].get('test_page', 1))
+    data = detect_pdf_pattern(doc, num_pages)
+    # print('data',data)
+    return data
+# Function to detect the pdf pattern
+def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
+    # Initialize flags and variables
+    has_question = False
+    has_option = False
+    has_answer = False
+    has_section = False
+    correct_answer = None
+    # Initialize result dictionary
+    result = {"sections": []}
+    print('-------------result---------------', result)
+    current_section = None
+    current_question = None
+    in_options = False
+    # Process specified number of pages (e.g., page 0 if num_pages=1)
+    for i in range(min(num_pages, len(doc))):
+        # Collect items from the page
+        items = collect_page_items(doc[i])
+        # print('items', len(items))
+        idx = 0
+        # Skip header/footer items at the top
+        while idx < len(items) and items[idx]["type"] == "text" and is_ignored_text(items[idx]["text"]):
+            idx += 1
+        # Process remaining items
+        while idx < len(items):
+            item = items[idx]
+            # if item["type"] == "text":
+            #     print('next==========item',idx, 'is idx =>', item["text"])
+            # Handle section pattern
+            if item["type"] == "text" and any(p.search(item["text"]) for p in SECTION_PATTERNS):
+                has_section = True
+                next_idx = idx + 1
+                title = items[next_idx]["text"].strip() if next_idx < len(items) else "Untitled"
+                # print('title name is ', title)
+                current_section = {"title": title, "questions": []}
+                result["sections"].append(current_section)
+                idx = next_idx + 1
+                continue
+            # Handle question start
+            q_start = match_question_start(item["text"]) if item["type"] == "text" else None
+            if q_start:
+                # print('got question start pattern')
+                has_question = True
+                # Initialize new question
+                current_question = {"question": [], "options": [], "correctOption": None}
+                if not current_section:
+                    current_section = {"title": "Uncategorized", "questions": []}
+                    result["sections"].append(current_section)
+                current_section["questions"].append(current_question)
+                in_options = False
+                # Add question start item (text)
+                if item["type"] == "text":
+                    current_question["question"].append({"type": "text", "data": item["text"]})
+                # Collect items until next question start
+                idx += 1
+                while idx < len(items):
+                    next_item = items[idx]
+                    # New: Check for section pattern inside question parsing loop
+                    if next_item["type"] == "text" and any(p.search(next_item["text"]) for p in SECTION_PATTERNS):
+                        has_section = True
+                        next_idx = idx + 1
+                        new_title = items[next_idx]["text"].strip() if next_idx < len(items) else "Untitled"
+                        if result["sections"] and result["sections"][0]["title"] == "Uncategorized":
+                            result["sections"][0]["title"] = new_title
+                        else:
+                            if not result["sections"] or result["sections"][-1]["title"] != new_title:
+                                new_section = {
+                                    "title": new_title,
+                                    "questions": []
+                                }
+                                result["sections"].append(new_section)
+                        idx = next_idx + 1 
+                        continue
+                    # if next_item["type"] == "text":
+                    #     print('next==========item', next_item["text"])
+                    # Check for next question start
+                    if next_item["type"] == "text" and match_question_start(next_item["text"]):
+                        break
+                    # Handle answer pattern (text)
+                    if next_item["type"] == "text" and ANS_PATTERN.match(next_item["text"]):
+                        has_answer = True
+                        match = ANS_PATTERN.match(next_item["text"])
+                        if match.group(1) and current_question["correctOption"] is None:
+                            correct_answer = int(match.group(1))
+                            current_question["correctOption"] = correct_answer
+                        current_question["question"].append({"type": "text", "data": next_item["text"]})
+                        idx += 1
+                        in_options = True  
+                        continue
+                    # Handle option pattern (text or image)
+                    opt = OPT_MARK.match(next_item["text"]) if next_item["type"] == "text" else None
+                    if opt and (next_item["type"] == "text" or next_item["type"] == "image"):
+                        has_option = True
+                        in_options = True
+                        marker = opt.group(1)
+                        opt_idx = get_option_index(marker)
+                        while len(current_question["options"]) <= opt_idx:
+                            current_question["options"].append([])
+                        if next_item["type"] == "text":
+                            cleaned = clean_option_text(next_item["text"])
+                            current_question["options"][opt_idx].append({"type": "text", "data": cleaned})
+                        elif next_item["type"] == "image":
+                            current_question["options"][opt_idx].append({"type": "image", "data": next_item["data"]})
+                        # Check for correct option via color (only if no explicit answer)
+                        color = next_item.get("color", (0, 0, 0))
+                        if is_green(color) and current_question["correctOption"] is None:
+                            current_question["correctOption"] = opt_idx + 1
+                        idx += 1
+                        continue
+                    # Handle other items (text, image, table for question; text, image for options)
+                    if in_options and current_question["options"]:
+                        if next_item["type"] == "text" and any(p.search(next_item["text"]) for p in AFTER_OPTION_IGNORE_PATTERNS):
+                            idx += 1
+                            continue
+                        if next_item["type"] in ["text", "image"]:
+                            current_question["options"][-1].append({"type": next_item["type"], "data": next_item["text"] if next_item["type"] == "text" else next_item["data"]})
+                            # Check for correct answer via color (only if no explicit answer)
+                            if is_green(next_item.get("color", (0, 0, 0))) and current_question["correctOption"] is None:
+                                current_question["correctOption"] = len(current_question["options"])
+                        idx += 1
+                        continue
+                    # Add to question (text, image, table)
+                    if next_item["type"] in ["text", "image", "table"]:
+                        current_question["question"].append({"type": next_item["type"], "data": next_item["text"] if next_item["type"] == "text" else next_item["data"]})
+                        # Check for correct answer via color (only if no explicit answer)
+                        if is_green(next_item.get("color", (0, 0, 0))) and current_question["correctOption"] is None and next_item["type"] != "table":
+                            current_question["correctOption"] = 0  # Indicates answer in question
+                    # Handle between section
+                    # print('section pattern', SECTION_PATTERNS, item["text"])
+                    # if next_item["type"] == "text" and any(p.search(next_item["text"]) for p in SECTION_PATTERNS):
+                    #     print('---section detected--')
+
+                    #     has_section = True
+                    #     next_idx = idx + 1
+                    #     if result["sections"][0]["title"] == "Uncategorized":
+                    #         new_title = items[next_idx]["text"].strip()
+                    #         print('section====is=====uncategorized', new_title)
+                    #         result["sections"][0]["title"] = new_title
+                    #         print("after sec tittle", result["sections"][0]["title"])
+                    #     else:
+                    #         print('new section got')
+                    #         new_title = items[next_idx]["text"].strip()
+                    #         if result["sections"][-1]["title"] != new_title:
+                    #             new_section = {
+                    #                 "title": new_title,
+                    #                 "questions": []
+                    #             }
+                    #             result["sections"].append(new_section)
+                    #             print("Created/*/*/*/*/*/*/*/*/*/*/*/*/*/ new/*/*/*/*/*/*/*/*/*/*/*/*/*/ section:", new_title)
+                    idx += 1
+                continue
+            # Add item to current question if exists
+            if current_question:
+                if in_options and current_question["options"]:
+                    if item["type"] == "text" and any(p.search(item["text"]) for p in AFTER_OPTION_IGNORE_PATTERNS):
+                        idx += 1
+                        continue
+                    if item["type"] in ["text", "image"]:
+                        current_question["options"][-1].append({"type": item["type"], "data": item["text"] if item["type"] == "text" else item["data"]})
+                        if is_green(item.get("color", (0, 0, 0))) and current_question["correctOption"] is None:
+                            current_question["correctOption"] = len(current_question["options"])
+                else:
+                    if item["type"] in ["text", "image", "table"]:
+                        current_question["question"].append({"type": item["type"], "data": item["text"] if item["type"] == "text" else item["data"]})
+                        if is_green(item.get("color", (0, 0, 0))) and current_question["correctOption"] is None and item["type"] != "table":
+                            current_question["correctOption"] = 0
+            idx += 1
+    # Clean up temporary fields
+    # for section in result.get("sections", []):
+    #     for q in section["questions"]:
+    #         for opt in q["options"]:
+    #             for piece in opt:
+    #                 piece.pop("_color", None)
+    
+    # Merge lines if threshold is set
+    # if MERGE_LINE_LENGTH_THRESHOLD is not None:
+    #     result = merge_lines(result, MERGE_LINE_LENGTH_THRESHOLD)
+    
+    # Return structured result with detection flags
+    return {
+        "pattern_detected": {
+            "has_question": has_question,
+            "has_option": has_option,
+            "has_answer": has_answer,
+            "has_section": has_section
+        },
+        "data": result
+    }
