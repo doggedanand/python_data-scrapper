@@ -14,7 +14,6 @@ from typing import Any, Dict, List, Tuple, Optional
 import os
 # Input PDF file path
 PDF_PATH = "./pdfs/SSC-CGL-17-September-2024-Shift-1.pdf"
-# PDF_PATH = "SSC-CGL-24-September-2024-Shift-1.pdf"
 # Output JSON file path
 OUTPUT_JSON = "output.json"
 # Max width/height for small icons
