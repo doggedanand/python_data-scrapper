@@ -13,8 +13,9 @@ def home():
 @app.route("/test_pdf", methods=["POST"])
 def test_pdfs():
     try:
+        # 1. get pdf file from request
         file_data = request.files['pdf']  
-         # 2. get "setting" metadata (JSON string)
+        # 2. get "setting" metadata (JSON string)
         setting_raw = request.form.get("setting")
         # check pdf exists
         if not file_data:

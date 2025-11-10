@@ -162,7 +162,6 @@ def match_question_start(text):
     return None
 # Collect text and images from a PDF page
 def collect_page_items(page) -> List[Dict[str, Any]]:
-    # print('page width', PAGE_WIDTH)
     # Store collected items
     items: List[Dict[str, Any]] = []
     # Extract page content as dict
@@ -282,7 +281,7 @@ def collect_page_items(page) -> List[Dict[str, Any]]:
                 # Set item type to image
                 "type": "image",
                 # Convert image bytes to base64 string
-                "data": 'to_base64(img_bytes)',
+                "data": to_base64(img_bytes),
                 # Store bounding box coordinates
                 "bbox": (r.x0, r.y0, r.x1, r.y1),
                 # Store image width
@@ -420,12 +419,6 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     for page in doc:
         # Collect text and image items from the page
         items = collect_page_items(page)
-        # Check if page number is 5 for debugging
-        if page.number == 0:
-            # Open file to save page items as JSON
-            with open("pageitems.json", "w", encoding="utf-8") as f:
-                # Write items to JSON file with proper encoding
-                json.dump(items, f, ensure_ascii=False, indent=4)
         # Initialize index for processing items
         idx = 0
         # Process each item on the page
@@ -558,7 +551,6 @@ def parse_pdf(pdf_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
                 # Check if in options mode with existing options
                 if in_options and current_question["options"]:
                     if any(p.search(text) for p in AFTER_OPTION_IGNORE_PATTERNS):
-                        # print('Skipping line due to AFTER_OPTION_IGNORE_PATTERNS:', text)
                         idx += 1
                         in_options = False
                         current_question = None
@@ -652,18 +644,10 @@ def merge_lines(result: Dict[str, Any], line_length_threshold: int) -> Dict[str,
 def handle_uploaded_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     # Initialize global settings
     initialize_settings(settings)
-    print('global ignore pattern', GLOBAL_IGNORE_PATTERNS)
     global PDF_PATH
     PDF_PATH = pdf_file_path
     # Call the processing function
     result = parse_pdf(pdf_file_path, settings)
-    # Open the output JSON file in write mode with UTF-8 encoding
-    with open(OUTPUT_JSON, "w", encoding="utf-8") as fh:
-        # Dump the parsed result dictionary into the JSON file
-        json.dump(result, fh, ensure_ascii=False, indent=2)
-    # Print confirmation message with file name
-    print("saved", OUTPUT_JSON)
-    # Return the result
     return result
 def handle_test_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, Any]:
     # Initialize global settings
@@ -673,7 +657,6 @@ def handle_test_pdf(pdf_file_path: str, settings: Dict[str, Any]) -> Dict[str, A
     doc = fitz.open(pdf_file_path)
     num_pages = int(settings['attributes'].get('test_page', 1))
     data = detect_pdf_pattern(doc, num_pages)
-    # print('data',data)
     return data
 # Function to detect the pdf pattern
 def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
@@ -685,7 +668,6 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
     correct_answer = None
     # Initialize result dictionary
     result = {"sections": []}
-    print('-------------result---------------', result)
     current_section = None
     current_question = None
     in_options = False
@@ -693,7 +675,6 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
     for i in range(min(num_pages, len(doc))):
         # Collect items from the page
         items = collect_page_items(doc[i])
-        # print('items', len(items))
         idx = 0
         # Skip header/footer items at the top
         while idx < len(items) and items[idx]["type"] == "text" and is_ignored_text(items[idx]["text"]):
@@ -701,22 +682,28 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
         # Process remaining items
         while idx < len(items):
             item = items[idx]
-            # if item["type"] == "text":
-            #     print('next==========item',idx, 'is idx =>', item["text"])
-            # Handle section pattern
             if item["type"] == "text" and any(p.search(item["text"]) for p in SECTION_PATTERNS):
                 has_section = True
                 next_idx = idx + 1
-                title = items[next_idx]["text"].strip() if next_idx < len(items) else "Untitled"
-                # print('title name is ', title)
+                title_parts = [item["text"].strip()]   
+                # Collect possible multi-line section title until a question pattern or next section
+                while next_idx < len(items):
+                    nxt = items[next_idx]
+                    # Stop if a new question or next section starts
+                    if nxt["type"] == "text" and (match_question_start(nxt["text"]) or any(p.search(nxt["text"]) for p in SECTION_PATTERNS)):
+                        break
+                    if nxt["type"] == "text":
+                        title_parts.append(nxt["text"].strip())
+                    next_idx += 1
+                title = " ".join(title_parts).strip() or "Untitled"
                 current_section = {"title": title, "questions": []}
                 result["sections"].append(current_section)
-                idx = next_idx + 1
+                # Move index ahead
+                idx = next_idx
                 continue
             # Handle question start
             q_start = match_question_start(item["text"]) if item["type"] == "text" else None
             if q_start:
-                # print('got question start pattern')
                 has_question = True
                 # Initialize new question
                 current_question = {"question": [], "options": [], "correctOption": None}
@@ -732,13 +719,24 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
                 idx += 1
                 while idx < len(items):
                     next_item = items[idx]
-                    # New: Check for section pattern inside question parsing loop
+                    # Check for section pattern inside question parsing loop
                     if next_item["type"] == "text" and any(p.search(next_item["text"]) for p in SECTION_PATTERNS):
                         has_section = True
                         next_idx = idx + 1
-                        new_title = items[next_idx]["text"].strip() if next_idx < len(items) else "Untitled"
+                        title_parts = [next_item["text"].strip()]   
+                        # Collect possible multi-line section title until a question or next section starts
+                        while next_idx < len(items):
+                            nxt = items[next_idx]
+                            # Stop when a new question or new section starts
+                            if nxt["type"] == "text" and (match_question_start(nxt["text"]) or any(p.search(nxt["text"]) for p in SECTION_PATTERNS)):
+                                break
+                            if nxt["type"] == "text":
+                                title_parts.append(nxt["text"].strip())
+                            next_idx += 1
+                        new_title = " ".join(title_parts).strip() or "Untitled"
                         if result["sections"] and result["sections"][0]["title"] == "Uncategorized":
                             result["sections"][0]["title"] = new_title
+                            current_section = result["sections"][0]
                         else:
                             if not result["sections"] or result["sections"][-1]["title"] != new_title:
                                 new_section = {
@@ -746,10 +744,10 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
                                     "questions": []
                                 }
                                 result["sections"].append(new_section)
-                        idx = next_idx + 1 
+                                current_section = new_section
+
+                        idx = next_idx
                         continue
-                    # if next_item["type"] == "text":
-                    #     print('next==========item', next_item["text"])
                     # Check for next question start
                     if next_item["type"] == "text" and match_question_start(next_item["text"]):
                         break
@@ -802,28 +800,6 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
                         # Check for correct answer via color (only if no explicit answer)
                         if is_green(next_item.get("color", (0, 0, 0))) and current_question["correctOption"] is None and next_item["type"] != "table":
                             current_question["correctOption"] = 0  # Indicates answer in question
-                    # Handle between section
-                    # print('section pattern', SECTION_PATTERNS, item["text"])
-                    # if next_item["type"] == "text" and any(p.search(next_item["text"]) for p in SECTION_PATTERNS):
-                    #     print('---section detected--')
-
-                    #     has_section = True
-                    #     next_idx = idx + 1
-                    #     if result["sections"][0]["title"] == "Uncategorized":
-                    #         new_title = items[next_idx]["text"].strip()
-                    #         print('section====is=====uncategorized', new_title)
-                    #         result["sections"][0]["title"] = new_title
-                    #         print("after sec tittle", result["sections"][0]["title"])
-                    #     else:
-                    #         print('new section got')
-                    #         new_title = items[next_idx]["text"].strip()
-                    #         if result["sections"][-1]["title"] != new_title:
-                    #             new_section = {
-                    #                 "title": new_title,
-                    #                 "questions": []
-                    #             }
-                    #             result["sections"].append(new_section)
-                    #             print("Created/*/*/*/*/*/*/*/*/*/*/*/*/*/ new/*/*/*/*/*/*/*/*/*/*/*/*/*/ section:", new_title)
                     idx += 1
                 continue
             # Add item to current question if exists
@@ -842,17 +818,9 @@ def detect_pdf_pattern(doc, num_pages: int) -> Dict[str, Any]:
                         if is_green(item.get("color", (0, 0, 0))) and current_question["correctOption"] is None and item["type"] != "table":
                             current_question["correctOption"] = 0
             idx += 1
-    # Clean up temporary fields
-    # for section in result.get("sections", []):
-    #     for q in section["questions"]:
-    #         for opt in q["options"]:
-    #             for piece in opt:
-    #                 piece.pop("_color", None)
-    
     # Merge lines if threshold is set
-    # if MERGE_LINE_LENGTH_THRESHOLD is not None:
-    #     result = merge_lines(result, MERGE_LINE_LENGTH_THRESHOLD)
-    
+    if MERGE_LINE_LENGTH_THRESHOLD is not None:
+        result = merge_lines(result, MERGE_LINE_LENGTH_THRESHOLD)
     # Return structured result with detection flags
     return {
         "pattern_detected": {
